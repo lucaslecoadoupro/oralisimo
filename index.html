@@ -3,37 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Oralísimo 🗣️</title>
+  <title>Oralísimo</title>
+  <!-- Favicon SVG inline via data URI -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234e2d99'/><text y='.9em' font-size='72' x='12'>🗣️</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 /* =============================================
-   ORALÍSIMO — STYLES
+   ORALÍSIMO v2 — STYLES
    ============================================= */
 :root {
-  --brand-purple: #6c3fc5;
-  --brand-purple-dark: #4e2d99;
-  --brand-purple-light: #9b72e8;
-  --brand-yellow: #f5c400;
+  --brand-purple:      #5b35b0;
+  --brand-purple-dark: #3d2280;
+  --brand-purple-light:#8b62e0;
+  --brand-yellow:      #f5c400;
   --brand-yellow-dark: #d4a800;
-  --brand-red: #e84040;
-  --brand-green: #28c76f;
-  --brand-blue: #3b82f6;
-  --brand-orange: #ff7c1a;
-  --bg-base: #1a1045;
-  --bg-surface: #251562;
-  --bg-card: #2e1a78;
-  --text-primary: #ffffff;
-  --text-secondary: #c4b5fd;
-  --text-muted: #8b73c8;
-  --border: rgba(255,255,255,0.1);
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
-  --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
-  --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
-  --glow-purple: 0 0 32px rgba(108,63,197,0.6);
-  --glow-yellow: 0 0 24px rgba(245,196,0,0.5);
-  --radius-sm: 8px; --radius-md: 16px; --radius-lg: 24px;
-  --radius-xl: 32px; --radius-full: 9999px;
+  --brand-red:         #e84040;
+  --brand-green:       #1faa60;
+  --brand-blue:        #3b82f6;
+  --brand-orange:      #e86c10;
+  --bg-base:           #120d35;
+  --bg-card:           #1e1558;
+  --text-primary:      #ffffff;
+  --text-secondary:    #bba8f0;
+  --text-muted:        #7860b8;
+  --border:            rgba(255,255,255,0.12);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.45);
+  --shadow-lg: 0 20px 56px rgba(0,0,0,0.55);
+  --glow-purple: 0 0 28px rgba(91,53,176,0.65);
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+  --radius-xl: 28px; --radius-full: 9999px;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body {
@@ -43,585 +42,776 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* SCREENS */
+/* ── SCREENS ─────────────────────────────── */
 .screen {
   position: fixed; inset: 0; display: flex; flex-direction: column;
   opacity: 0; pointer-events: none;
-  transform: scale(0.97) translateY(8px);
-  transition: opacity 0.35s ease, transform 0.35s ease;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
   overflow-y: auto;
 }
-.screen.active { opacity: 1; pointer-events: all; transform: scale(1) translateY(0); z-index: 10; }
+.screen.active { opacity: 1; pointer-events: all; transform: translateY(0); z-index: 10; }
 
-/* HEADER */
+/* ── HEADER ──────────────────────────────── */
 .app-header {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 20px;
-  background: rgba(0,0,0,0.25); backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--border); flex-shrink: 0; z-index: 100;
+  padding: 10px 18px;
+  background: rgba(18,13,53,0.85); backdrop-filter: blur(12px);
+  border-bottom: 2px solid var(--brand-purple); flex-shrink: 0; z-index: 100;
 }
 .header-logo {
-  font-family: 'Baloo 2', cursive; font-size: 1.3rem; font-weight: 800;
+  font-family: 'Baloo 2', cursive; font-size: 1.25rem; font-weight: 800;
   cursor: pointer; color: var(--brand-yellow);
-  text-shadow: 0 2px 8px rgba(245,196,0,0.4); transition: transform 0.2s;
+  text-shadow: 0 2px 6px rgba(245,196,0,0.5); transition: transform 0.2s;
+  user-select: none;
 }
-.header-logo:hover { transform: scale(1.05); }
-.header-center { flex: 1; display: flex; justify-content: center; }
-.header-actions { display: flex; gap: 8px; }
+.header-logo:hover { transform: scale(1.04); }
+.header-center { flex: 1; display: flex; justify-content: center; align-items: center; gap: 8px; }
+.header-actions { display: flex; gap: 6px; }
+
 .badge-level {
-  background: var(--brand-yellow); color: #1a1045; font-weight: 800;
-  font-size: 0.85rem; padding: 4px 14px; border-radius: var(--radius-full); letter-spacing: 0.5px;
+  background: var(--brand-yellow); color: #120d35; font-weight: 900;
+  font-size: 0.8rem; padding: 3px 13px; border-radius: var(--radius-full);
+  letter-spacing: 0.5px; font-family: 'Baloo 2', cursive;
 }
 .btn-icon {
-  background: rgba(255,255,255,0.1); border: 1px solid var(--border);
+  background: rgba(255,255,255,0.08); border: 1px solid var(--border);
   color: var(--text-primary); border-radius: var(--radius-md);
-  width: 40px; height: 40px; font-size: 1.1rem; cursor: pointer;
+  width: 38px; height: 38px; font-size: 1rem; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: background 0.2s, transform 0.15s;
 }
-.btn-icon:hover { background: rgba(255,255,255,0.2); transform: scale(1.1); }
+.btn-icon:hover { background: rgba(255,255,255,0.18); transform: scale(1.08); }
 
-/* BUTTONS */
+/* ── BUTTONS ─────────────────────────────── */
 .btn-primary {
-  background: var(--brand-yellow); color: #1a1045; border: none;
-  border-radius: var(--radius-full); padding: 14px 36px;
-  font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 1.05rem;
-  cursor: pointer; transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
-  box-shadow: 0 4px 16px rgba(245,196,0,0.4);
+  background: var(--brand-yellow); color: #120d35; border: none;
+  border-radius: var(--radius-full); padding: 13px 32px;
+  font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 1rem;
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.2s, filter 0.2s;
+  box-shadow: 0 4px 14px rgba(245,196,0,0.45);
 }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,196,0,0.5); background: var(--brand-yellow-dark); }
+.btn-primary:hover { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 7px 20px rgba(245,196,0,0.5); }
 .btn-primary:active { transform: translateY(0); }
-.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.btn-primary:disabled { opacity: 0.38; cursor: not-allowed; transform: none; }
 .btn-secondary {
-  background: rgba(255,255,255,0.1); color: var(--text-primary);
-  border: 2px solid rgba(255,255,255,0.2); border-radius: var(--radius-full);
-  padding: 12px 28px; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem;
-  cursor: pointer; transition: background 0.2s, transform 0.15s, border-color 0.2s;
+  background: rgba(255,255,255,0.08); color: var(--text-primary);
+  border: 2px solid rgba(255,255,255,0.18); border-radius: var(--radius-full);
+  padding: 11px 26px; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.95rem;
+  cursor: pointer; transition: background 0.2s, transform 0.15s;
 }
-.btn-secondary:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.4); transform: translateY(-1px); }
+.btn-secondary:hover { background: rgba(255,255,255,0.16); transform: translateY(-1px); }
 .btn-danger {
   background: var(--brand-red); color: #fff; border: none;
-  border-radius: var(--radius-full); padding: 12px 28px;
-  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem;
-  cursor: pointer; transition: background 0.2s, transform 0.15s;
+  border-radius: var(--radius-full); padding: 11px 26px;
+  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.95rem;
+  cursor: pointer; transition: filter 0.2s, transform 0.15s;
   box-shadow: 0 4px 12px rgba(232,64,64,0.4);
 }
-.btn-danger:hover { background: #c93434; transform: translateY(-2px); }
+.btn-danger:hover { filter: brightness(1.1); transform: translateY(-1px); }
 
-/* LOGIN */
-#screen-login { background: var(--bg-base); align-items: center; justify-content: center; }
+/* ── LOGIN ───────────────────────────────── */
+#screen-login {
+  background: var(--bg-base); align-items: center; justify-content: center;
+}
 .login-bg { position: fixed; inset: 0; overflow: hidden; pointer-events: none; }
 .blob {
-  position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35;
-  animation: blobDrift 8s ease-in-out infinite alternate;
+  position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.3;
+  animation: blobDrift 9s ease-in-out infinite alternate;
 }
-.blob-1 { width: 500px; height: 500px; background: var(--brand-purple); top: -100px; left: -100px; }
-.blob-2 { width: 400px; height: 400px; background: var(--brand-blue); bottom: -80px; right: -80px; animation-delay: -3s; }
-.blob-3 { width: 300px; height: 300px; background: var(--brand-yellow); top: 40%; left: 40%; animation-delay: -6s; }
-@keyframes blobDrift { from { transform: translate(0,0) scale(1); } to { transform: translate(30px,-20px) scale(1.1); } }
-.login-card {
-  position: relative; background: rgba(255,255,255,0.05); backdrop-filter: blur(20px);
-  border: 1px solid var(--border); border-radius: var(--radius-xl);
-  padding: 40px 48px; max-width: 420px; width: 90%; text-align: center;
-  box-shadow: var(--shadow-lg), 0 0 80px rgba(108,63,197,0.2);
-}
-.logo-wrap { margin-bottom: 32px; }
-.logo-icon { font-size: 3.5rem; display: block; margin-bottom: 8px; animation: bounce 2s ease infinite; }
-@keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-.logo-title {
-  font-family: 'Baloo 2', cursive; font-size: 2.6rem; font-weight: 800;
-  color: var(--brand-yellow); text-shadow: 0 4px 16px rgba(245,196,0,0.4); line-height: 1;
-}
-.logo-sub { color: var(--text-secondary); font-size: 0.95rem; margin-top: 8px; }
-.level-section { margin-bottom: 28px; }
-.level-label { color: var(--text-secondary); font-weight: 700; margin-bottom: 16px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
-.level-buttons { display: flex; gap: 16px; justify-content: center; }
-.level-btn {
-  background: rgba(255,255,255,0.06); border: 2px solid var(--border);
-  color: var(--text-primary); border-radius: var(--radius-lg); padding: 20px 28px;
-  cursor: pointer; transition: all 0.25s;
-  display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1;
-}
-.level-btn:hover { background: rgba(108,63,197,0.2); border-color: var(--brand-purple-light); transform: translateY(-3px); }
-.level-btn.selected { background: var(--brand-purple); border-color: var(--brand-purple-light); box-shadow: var(--glow-purple); }
-.level-emoji { font-size: 2rem; }
-.level-name { font-weight: 900; font-size: 1.1rem; font-family: 'Baloo 2', cursive; }
+.blob-1 { width: 480px; height: 480px; background: var(--brand-purple); top: -120px; left: -80px; }
+.blob-2 { width: 360px; height: 360px; background: var(--brand-blue); bottom: -60px; right: -60px; animation-delay: -3s; }
+.blob-3 { width: 260px; height: 260px; background: var(--brand-yellow); top: 35%; left: 38%; animation-delay: -6s; }
+@keyframes blobDrift { from { transform: translate(0,0) scale(1); } to { transform: translate(25px,-18px) scale(1.08); } }
 
-/* HOME */
+.login-card {
+  position: relative; background: rgba(255,255,255,0.05); backdrop-filter: blur(22px);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-xl);
+  padding: 40px 48px; max-width: 420px; width: 90%; text-align: center;
+  box-shadow: var(--shadow-lg), 0 0 60px rgba(91,53,176,0.25);
+}
+.logo-wrap { margin-bottom: 30px; }
+.logo-icon { font-size: 3.2rem; display: block; margin-bottom: 8px; animation: logoBounce 2.4s ease infinite; }
+@keyframes logoBounce { 0%,100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-10px) rotate(4deg); } }
+.logo-title {
+  font-family: 'Baloo 2', cursive; font-size: 2.5rem; font-weight: 800;
+  color: var(--brand-yellow); text-shadow: 0 3px 14px rgba(245,196,0,0.45); line-height: 1;
+}
+.logo-sub { color: var(--text-secondary); font-size: 0.9rem; margin-top: 6px; }
+
+.level-section { margin-bottom: 26px; }
+.level-label { color: var(--text-secondary); font-weight: 700; margin-bottom: 14px; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 1.2px; }
+.level-buttons { display: flex; gap: 14px; justify-content: center; }
+.level-btn {
+  background: rgba(255,255,255,0.06); border: 2px solid rgba(255,255,255,0.12);
+  color: var(--text-primary); border-radius: var(--radius-lg); padding: 18px 26px;
+  cursor: pointer; transition: all 0.22s;
+  display: flex; flex-direction: column; align-items: center; gap: 7px; flex: 1;
+}
+.level-btn:hover { background: rgba(91,53,176,0.2); border-color: var(--brand-purple-light); transform: translateY(-3px); }
+.level-btn.selected { background: var(--brand-purple); border-color: var(--brand-purple-light); box-shadow: var(--glow-purple); }
+.level-emoji { font-size: 1.9rem; }
+.level-name { font-weight: 900; font-size: 1.05rem; font-family: 'Baloo 2', cursive; }
+
+.login-copyright {
+  margin-top: 22px; font-size: 0.75rem; color: var(--text-muted);
+  letter-spacing: 0.3px;
+}
+
+/* ── HOME ────────────────────────────────── */
 #screen-home { background: var(--bg-base); }
 .home-main {
   flex: 1; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; padding: 24px; gap: 32px;
+  align-items: center; justify-content: center; padding: 24px; gap: 28px;
 }
-.home-stats { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.home-stats { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .stat-chip {
   display: inline-flex; align-items: center; gap: 8px;
   background: rgba(255,255,255,0.06); border: 1px solid var(--border);
-  border-radius: var(--radius-full); padding: 10px 24px;
+  border-radius: var(--radius-full); padding: 9px 22px;
 }
-.stat-num { font-weight: 900; font-size: 1.2rem; color: var(--brand-yellow); }
-.stat-txt { color: var(--text-secondary); font-size: 0.95rem; }
+.stat-num { font-weight: 900; font-size: 1.15rem; color: var(--brand-yellow); }
+.stat-txt { color: var(--text-secondary); font-size: 0.9rem; }
+
 .spin-zone { position: relative; display: flex; align-items: center; justify-content: center; }
-.spin-decoration { position: absolute; inset: -60px; display: flex; align-items: center; justify-content: center; pointer-events: none; }
-.ring { position: absolute; border-radius: 50%; border: 2px solid rgba(255,255,255,0.05); animation: ringPulse 3s ease-in-out infinite; }
-.ring-1 { width: 260px; height: 260px; }
-.ring-2 { width: 340px; height: 340px; animation-delay: 0.6s; }
-.ring-3 { width: 420px; height: 420px; animation-delay: 1.2s; }
-@keyframes ringPulse { 0%,100% { opacity: 0.05; transform: scale(1); } 50% { opacity: 0.15; transform: scale(1.03); } }
+.spin-decoration { position: absolute; inset: -50px; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+.ring { position: absolute; border-radius: 50%; border: 2px solid rgba(255,255,255,0.06); animation: ringPulse 3.2s ease-in-out infinite; }
+.ring-1 { width: 250px; height: 250px; }
+.ring-2 { width: 320px; height: 320px; animation-delay: 0.7s; }
+.ring-3 { width: 390px; height: 390px; animation-delay: 1.4s; }
+@keyframes ringPulse { 0%,100% { opacity: 0.04; transform: scale(1); } 50% { opacity: 0.14; transform: scale(1.04); } }
+
 .btn-spin {
   position: relative;
-  background: linear-gradient(135deg, var(--brand-purple), var(--brand-purple-dark));
-  border: none; border-radius: 50%; width: 200px; height: 200px; cursor: pointer;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
-  box-shadow: var(--glow-purple), var(--shadow-lg); transition: transform 0.2s, box-shadow 0.2s;
+  background: linear-gradient(145deg, var(--brand-purple), var(--brand-purple-dark));
+  border: 3px solid var(--brand-purple-light);
+  border-radius: 50%; width: 190px; height: 190px; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  box-shadow: var(--glow-purple), 0 12px 32px rgba(0,0,0,0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-.btn-spin:hover { transform: scale(1.06); box-shadow: 0 0 50px rgba(108,63,197,0.8), var(--shadow-lg); }
-.btn-spin:active { transform: scale(0.97); }
-.btn-spin-icon { font-size: 2.5rem; animation: wobble 2.5s ease-in-out infinite; }
-@keyframes wobble { 0%,100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
-.btn-spin-text { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.05rem; color: #fff; text-align: center; line-height: 1.2; padding: 0 16px; }
-.quick-actions { display: flex; gap: 12px; }
+.btn-spin:hover { transform: scale(1.05); box-shadow: 0 0 44px rgba(91,53,176,0.8), 0 12px 32px rgba(0,0,0,0.5); }
+.btn-spin:active { transform: scale(0.96); }
+.btn-spin-icon { font-size: 2.4rem; animation: diceWobble 3s ease-in-out infinite; }
+@keyframes diceWobble { 0%,100% { transform: rotate(-8deg) scale(1); } 50% { transform: rotate(8deg) scale(1.1); } }
+.btn-spin-text { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1rem; color: #fff; text-align: center; line-height: 1.2; padding: 0 14px; }
+
+.quick-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 .quick-btn {
   background: rgba(255,255,255,0.06); border: 1px solid var(--border);
-  color: var(--text-secondary); border-radius: var(--radius-full); padding: 10px 20px;
-  font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.9rem; cursor: pointer;
-  display: flex; align-items: center; gap: 8px; transition: background 0.2s, color 0.2s;
+  color: var(--text-secondary); border-radius: var(--radius-full); padding: 9px 18px;
+  font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.85rem; cursor: pointer;
+  display: flex; align-items: center; gap: 7px; transition: background 0.2s, color 0.2s;
 }
 .quick-btn:hover { background: rgba(255,255,255,0.12); color: var(--text-primary); }
 
-/* DRAW */
+/* ── DRAW ────────────────────────────────── */
 #screen-draw { background: var(--bg-base); }
-.draw-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px; padding: 24px; }
-.draw-stage { perspective: 1000px; }
-.draw-card {
-  width: 340px; height: 220px; position: relative; cursor: pointer;
-  transform-style: preserve-3d; transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);
+.draw-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; padding: 24px; }
+
+/* Carte 3D avec thème visible sous le ? */
+.draw-stage { perspective: 1200px; }
+.draw-card-wrap {
+  width: 360px;
+  display: flex; flex-direction: column; align-items: center; gap: 0;
 }
-.draw-card.flipped { transform: rotateY(180deg); }
-.draw-card-front, .draw-card-back {
-  position: absolute; inset: 0; backface-visibility: hidden;
-  border-radius: var(--radius-xl);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px;
+
+/* Face "fermée" : juste le point d'interrogation */
+.draw-card-closed {
+  width: 360px; height: 100px;
+  background: linear-gradient(145deg, var(--brand-purple), var(--brand-purple-dark));
+  border: 2px solid var(--brand-purple-light); border-radius: var(--radius-xl);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--glow-purple);
+  font-size: 3.5rem;
+  animation: cardFloat 3s ease-in-out infinite;
 }
-.draw-card-front {
-  background: linear-gradient(135deg, var(--brand-purple), var(--brand-purple-dark));
-  box-shadow: var(--glow-purple); border: 2px solid rgba(255,255,255,0.15);
+@keyframes cardFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+/* Panneau thème sous la carte — toujours visible après le tirage */
+.draw-card-reveal {
+  width: 360px;
+  background: linear-gradient(160deg, #0f2850, #1a3a6e);
+  border: 2px solid rgba(100,180,255,0.3);
+  border-top: none;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  padding: 20px 24px;
+  box-shadow: 0 8px 28px rgba(59,130,246,0.3);
+  display: none; /* shown by JS after draw */
+  flex-direction: column; gap: 10px; text-align: center;
+  animation: revealSlide 0.5s cubic-bezier(0.34,1.4,0.64,1) forwards;
 }
-.draw-question { font-size: 5rem; animation: bounce 1.5s ease infinite; }
-.draw-card-back {
-  background: linear-gradient(135deg, #1a3a6e, #0f2850);
-  border: 2px solid rgba(100,180,255,0.3); transform: rotateY(180deg);
-  box-shadow: 0 0 32px rgba(59,130,246,0.4); gap: 12px; text-align: center;
-}
-.topic-type-badge {
-  font-size: 0.75rem; font-weight: 900; letter-spacing: 1.5px;
-  padding: 4px 14px; border-radius: var(--radius-full); text-transform: uppercase;
+@keyframes revealSlide { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
+.draw-card-reveal .topic-type-badge {
+  display: inline-block; align-self: center;
+  font-size: 0.72rem; font-weight: 900; letter-spacing: 1.4px;
+  padding: 3px 13px; border-radius: var(--radius-full); text-transform: uppercase;
 }
 .topic-type-badge.situation { background: var(--brand-green); color: #fff; }
-.topic-type-badge.debat { background: var(--brand-orange); color: #fff; }
-.topic-title { font-family: 'Baloo 2', cursive; font-size: 1.2rem; font-weight: 800; }
-.topic-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
-.draw-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
-@keyframes cardSpin { 0% { transform: scale(0.8) rotateY(-20deg); opacity: 0; } 60% { transform: scale(1.05) rotateY(5deg); } 100% { transform: scale(1) rotateY(0deg); opacity: 1; } }
-.draw-card.animating { animation: cardSpin 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+.topic-type-badge.debat     { background: var(--brand-orange); color: #fff; }
+.draw-card-reveal .topic-title {
+  font-family: 'Baloo 2', cursive; font-size: 1.35rem; font-weight: 800; color: #fff; line-height: 1.3;
+}
+.draw-card-reveal .topic-desc { font-size: 0.88rem; color: #93c5fd; line-height: 1.55; }
 
-/* PREP TIMER */
+.draw-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+
+/* ── PREP ────────────────────────────────── */
 #screen-prep { background: var(--bg-base); }
-.prep-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; padding: 24px; }
+.prep-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; padding: 24px; }
 .prep-topic-recap { text-align: center; }
 .prep-topic-badge {
-  display: inline-block; font-size: 0.75rem; font-weight: 900; letter-spacing: 1.5px;
-  padding: 4px 14px; border-radius: var(--radius-full); text-transform: uppercase; margin-bottom: 10px;
+  display: inline-block; font-size: 0.72rem; font-weight: 900; letter-spacing: 1.4px;
+  padding: 3px 13px; border-radius: var(--radius-full); text-transform: uppercase; margin-bottom: 9px;
 }
-.prep-topic-recap h2 { font-family: 'Baloo 2', cursive; font-size: 1.4rem; font-weight: 800; max-width: 500px; }
-.timer-zone { position: relative; }
-.timer-circle { position: relative; width: 220px; height: 220px; }
-.timer-svg { position: absolute; inset: 0; transform: rotate(-90deg); width: 100%; height: 100%; }
-.timer-track { fill: none; stroke: rgba(255,255,255,0.07); stroke-width: 12; }
-.timer-progress {
-  fill: none; stroke: var(--brand-yellow); stroke-width: 12; stroke-linecap: round;
-  transition: stroke-dashoffset 1s linear, stroke 0.5s;
-  filter: drop-shadow(0 0 8px rgba(245,196,0,0.7));
-}
-.timer-display { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
-.timer-num { font-family: 'Baloo 2', cursive; font-size: 3.2rem; font-weight: 800; color: var(--brand-yellow); line-height: 1; }
-.timer-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
-.prep-controls { display: flex; gap: 16px; }
-.prep-hint { color: var(--text-muted); font-size: 0.9rem; display: flex; align-items: center; gap: 6px; }
+.prep-topic-recap h2 { font-family: 'Baloo 2', cursive; font-size: 1.35rem; font-weight: 800; max-width: 520px; line-height: 1.3; }
 
-/* EXCHANGE */
-#screen-exchange { background: var(--bg-base); }
-.exchange-header { background: rgba(0,0,0,0.4); }
-.exchange-timer-mini { font-family: 'Baloo 2', cursive; font-size: 1.2rem; font-weight: 800; color: var(--brand-green); }
-.character-overlay {
-  position: fixed; inset: 0; background: rgba(10,5,30,0.85);
-  display: flex; align-items: center; justify-content: center; z-index: 200;
-  animation: characterIn 0.5s ease forwards;
+.timer-zone { position: relative; }
+.timer-circle { position: relative; width: 210px; height: 210px; }
+.timer-svg { position: absolute; inset: 0; transform: rotate(-90deg); width: 100%; height: 100%; }
+.timer-track { fill: none; stroke: rgba(255,255,255,0.07); stroke-width: 11; }
+.timer-progress {
+  fill: none; stroke: var(--brand-yellow); stroke-width: 11; stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear, stroke 0.5s;
+  filter: drop-shadow(0 0 7px rgba(245,196,0,0.7));
 }
-.character-overlay.out { animation: characterOut 0.5s ease forwards; }
-@keyframes characterIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes characterOut { from { opacity: 1; } to { opacity: 0; pointer-events: none; } }
-.character-wrap { text-align: center; animation: characterBounce 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards; }
-@keyframes characterBounce { from { transform: scale(0.3) translateY(40px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+.timer-display { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
+.timer-num { font-family: 'Baloo 2', cursive; font-size: 3rem; font-weight: 800; color: var(--brand-yellow); line-height: 1; }
+.timer-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+.prep-controls { display: flex; gap: 14px; }
+.prep-hint { color: var(--text-muted); font-size: 0.85rem; display: flex; align-items: center; gap: 6px; font-style: italic; }
+
+/* ── EXCHANGE — accordéon ────────────────── */
+#screen-exchange { background: var(--bg-base); }
+.exchange-header-bar { background: rgba(18,13,53,0.9); }
+.exchange-timer-mini { font-family: 'Baloo 2', cursive; font-size: 1.15rem; font-weight: 800; color: var(--brand-green); }
+
+.exchange-main { flex: 1; display: flex; flex-direction: column; padding: 14px 16px; gap: 10px; overflow-y: auto; }
+
+.exchange-topic-banner {
+  background: linear-gradient(135deg, var(--brand-purple-dark), #0f2850);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-lg);
+  padding: 14px 18px; text-align: center; flex-shrink: 0;
+}
+.exchange-topic-banner .topic-type-badge { margin-bottom: 6px; }
+.exchange-topic-banner h2 { font-family: 'Baloo 2', cursive; font-size: 1.2rem; font-weight: 800; }
+
+/* Accordéon panels */
+.accord-list { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+
+.accord-item {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); overflow: hidden; flex-shrink: 0;
+}
+.accord-item.is-notes { flex: 1; display: flex; flex-direction: column; min-height: 120px; }
+
+.accord-trigger {
+  width: 100%; background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 16px;
+  color: var(--text-primary); font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.92rem;
+  transition: background 0.2s;
+}
+.accord-trigger:hover { background: rgba(255,255,255,0.06); }
+.accord-trigger-left { display: flex; align-items: center; gap: 9px; }
+.accord-icon { font-size: 1.1rem; }
+.accord-arrow { font-size: 0.75rem; color: var(--text-muted); transition: transform 0.25s; }
+.accord-item.open .accord-arrow { transform: rotate(180deg); }
+
+.accord-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.25s ease;
+  padding: 0 16px;
+}
+.accord-item.open .accord-body { max-height: 600px; padding: 0 16px 14px; }
+.accord-item.is-notes .accord-body { flex: 1; display: flex; flex-direction: column; }
+.accord-item.is-notes.open .accord-body { max-height: none; flex: 1; }
+
+/* Colour accents per panel */
+.accord-item.panel-comm  .accord-trigger-left { color: #7dd3fc; }
+.accord-item.panel-vocab .accord-trigger-left { color: #86efac; }
+.accord-item.panel-notes .accord-trigger-left { color: #fca5a5; }
+
+.comm-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.comm-item {
+  background: rgba(100,180,255,0.07); border: 1px solid rgba(100,180,255,0.14);
+  border-radius: var(--radius-md); padding: 8px 12px; font-size: 0.84rem; color: #bfdbfe; line-height: 1.45;
+}
+.comm-item strong { display: block; font-size: 0.73rem; color: #93c5fd; margin-bottom: 2px; letter-spacing: 0.3px; }
+
+.vocab-list { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.vocab-chip {
+  background: rgba(100,255,150,0.09); border: 1px solid rgba(100,255,150,0.2);
+  border-radius: var(--radius-full); padding: 4px 12px; font-size: 0.82rem; color: #86efac; font-weight: 700;
+}
+
+.notes-textarea {
+  width: 100%; flex: 1; min-height: 90px; background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border); border-radius: var(--radius-md); outline: none;
+  color: var(--text-primary); font-family: 'Nunito', sans-serif; font-size: 0.88rem;
+  resize: none; line-height: 1.6; padding: 10px 12px; margin-top: 4px;
+}
+.notes-textarea::placeholder { color: var(--text-muted); }
+
+.exchange-footer { display: flex; gap: 10px; justify-content: center; padding: 6px 0 2px; flex-shrink: 0; }
+
+/* Character overlay */
+.character-overlay {
+  position: fixed; inset: 0; background: rgba(10,5,28,0.88);
+  display: flex; align-items: center; justify-content: center; z-index: 200;
+}
+.character-overlay.fade-out { animation: fadeOut 0.4s ease forwards; }
+@keyframes fadeOut { to { opacity: 0; pointer-events: none; } }
+.character-wrap { text-align: center; animation: popIn 0.5s cubic-bezier(0.34,1.5,0.64,1) forwards; }
+@keyframes popIn { from { transform: scale(0.4) translateY(30px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
 .character-bubble {
-  background: var(--brand-yellow); color: #1a1045; font-weight: 900; font-size: 1.2rem;
-  padding: 12px 24px; border-radius: var(--radius-xl); margin-bottom: 16px; position: relative;
+  background: var(--brand-yellow); color: #120d35; font-weight: 900; font-size: 1.2rem;
+  padding: 12px 24px; border-radius: var(--radius-xl); margin-bottom: 18px; position: relative;
 }
 .character-bubble::after {
   content: ''; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%);
   border: 12px solid transparent; border-top-color: var(--brand-yellow); border-bottom: none;
 }
-.character-avatar { font-size: 6rem; margin: 16px 0; animation: pulse 1s ease-in-out infinite; }
-@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-.character-name { font-family: 'Baloo 2', cursive; font-size: 1.5rem; font-weight: 800; color: var(--text-secondary); }
-.exchange-main { flex: 1; display: flex; flex-direction: column; padding: 16px; gap: 16px; overflow-y: auto; }
-.exchange-header-info { text-align: center; }
-.exchange-topic-badge {
-  display: inline-block; font-size: 0.7rem; font-weight: 900; letter-spacing: 1.5px;
-  padding: 3px 12px; border-radius: var(--radius-full); text-transform: uppercase; margin-bottom: 6px;
-}
-.exchange-topic-title { font-family: 'Baloo 2', cursive; font-size: 1.2rem; font-weight: 800; }
-.exchange-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex: 1; }
-.exchange-panel { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; }
-.panel-notes { grid-column: 1 / -1; min-height: 140px; }
-.panel-header {
-  padding: 10px 16px; font-weight: 800; font-size: 0.85rem;
-  display: flex; align-items: center; gap: 8px;
-  border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.04); color: var(--text-secondary);
-}
-.panel-comm .panel-header { color: #7dd3fc; }
-.panel-vocab .panel-header { color: #86efac; }
-.panel-notes .panel-header { color: #fca5a5; }
-.panel-body { padding: 12px 16px; overflow-y: auto; flex: 1; }
-.comm-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-.comm-item {
-  background: rgba(100,180,255,0.08); border: 1px solid rgba(100,180,255,0.15);
-  border-radius: var(--radius-md); padding: 8px 12px; font-size: 0.85rem; color: #bfdbfe; line-height: 1.4;
-}
-.comm-item strong { display: block; font-size: 0.75rem; color: #93c5fd; margin-bottom: 2px; }
-.vocab-list { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
-.vocab-chip {
-  background: rgba(100,255,150,0.1); border: 1px solid rgba(100,255,150,0.2);
-  border-radius: var(--radius-full); padding: 4px 12px; font-size: 0.85rem; color: #86efac; font-weight: 700;
-}
-.notes-textarea {
-  width: 100%; height: 100%; min-height: 100px; background: transparent; border: none; outline: none;
-  color: var(--text-primary); font-family: 'Nunito', sans-serif; font-size: 0.9rem; resize: none; line-height: 1.6; padding: 4px;
-}
-.notes-textarea::placeholder { color: var(--text-muted); }
-.exchange-footer { display: flex; gap: 12px; justify-content: center; padding: 8px 0; flex-shrink: 0; }
+.character-avatar { font-size: 5.5rem; display: block; margin: 4px 0 12px; animation: avatarPulse 1s ease-in-out infinite; }
+@keyframes avatarPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.09); } }
+.character-name { font-family: 'Baloo 2', cursive; font-size: 1.4rem; font-weight: 800; color: var(--text-secondary); }
 
-/* ADMIN */
+/* ── ADMIN ───────────────────────────────── */
 #screen-admin { background: var(--bg-base); overflow-y: auto; }
-.admin-main { flex: 1; padding: 20px; max-width: 800px; margin: 0 auto; width: 100%; }
-.admin-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
-.admin-title { font-family: 'Baloo 2', cursive; font-size: 1.5rem; font-weight: 800; }
-.admin-level-tabs { display: flex; gap: 8px; }
+.admin-main { flex: 1; padding: 20px; max-width: 820px; margin: 0 auto; width: 100%; }
+.admin-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; flex-wrap: wrap; gap: 10px; }
+.admin-title { font-family: 'Baloo 2', cursive; font-size: 1.45rem; font-weight: 800; }
+.admin-level-tabs { display: flex; gap: 7px; }
 .tab-btn {
-  background: rgba(255,255,255,0.06); border: 2px solid var(--border); color: var(--text-secondary);
-  border-radius: var(--radius-full); padding: 8px 20px; font-weight: 800; font-size: 0.9rem;
+  background: rgba(255,255,255,0.06); border: 2px solid var(--border);
+  color: var(--text-secondary); border-radius: var(--radius-full);
+  padding: 7px 18px; font-weight: 800; font-size: 0.88rem;
   cursor: pointer; transition: all 0.2s; font-family: 'Nunito', sans-serif;
 }
 .tab-btn.active { background: var(--brand-purple); border-color: var(--brand-purple-light); color: #fff; }
-.admin-form-card { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 24px; margin-bottom: 24px; }
-.form-title { font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; color: var(--brand-yellow); }
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-.form-group { display: flex; flex-direction: column; gap: 6px; }
+
+/* Sections settings */
+.admin-section {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  border-radius: var(--radius-xl); padding: 22px; margin-bottom: 18px;
+}
+.admin-section-title {
+  font-family: 'Baloo 2', cursive; font-size: 1.05rem; font-weight: 800;
+  margin-bottom: 16px; color: var(--brand-yellow); display: flex; align-items: center; gap: 8px;
+}
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
 .form-full { grid-column: 1 / -1; }
-.form-group label { font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+.form-group label { font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.4px; }
 .form-input {
-  background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: var(--radius-md);
-  color: var(--text-primary); font-family: 'Nunito', sans-serif; font-size: 0.95rem;
-  padding: 10px 14px; outline: none; transition: border-color 0.2s; width: 100%;
+  background: rgba(255,255,255,0.07); border: 1px solid var(--border); border-radius: var(--radius-md);
+  color: var(--text-primary); font-family: 'Nunito', sans-serif; font-size: 0.92rem;
+  padding: 9px 13px; outline: none; transition: border-color 0.2s; width: 100%;
 }
 .form-input:focus { border-color: var(--brand-purple-light); }
-.form-textarea { min-height: 80px; resize: vertical; }
+.form-textarea { min-height: 78px; resize: vertical; }
 select.form-input { cursor: pointer; appearance: none; }
-select.form-input option { background: #251562; }
-.admin-list-section { margin-top: 8px; }
-.topics-list { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+select.form-input option { background: #1e1558; }
+
+/* Timers settings */
+.timer-settings { display: flex; gap: 14px; flex-wrap: wrap; }
+.timer-setting-box {
+  flex: 1; min-width: 140px;
+  background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 14px 16px; text-align: center;
+}
+.timer-setting-label { font-size: 0.78rem; color: var(--text-secondary); font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.4px; }
+.timer-setting-input {
+  background: transparent; border: none; border-bottom: 2px solid var(--brand-yellow);
+  color: var(--brand-yellow); font-family: 'Baloo 2', cursive; font-size: 1.8rem; font-weight: 800;
+  text-align: center; width: 80px; outline: none;
+}
+.timer-setting-unit { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+
+/* Comm aide editor */
+.comm-editor { display: flex; flex-direction: column; gap: 10px; }
+.comm-cat-row { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px 14px; }
+.comm-cat-name { font-weight: 800; font-size: 0.82rem; color: #93c5fd; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 8px; }
+.comm-phrases { display: flex; flex-direction: column; gap: 6px; }
+.comm-phrase-row { display: flex; gap: 8px; align-items: center; }
+.comm-phrase-input {
+  flex: 1; background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+  border-radius: var(--radius-md); color: var(--text-primary);
+  font-family: 'Nunito', sans-serif; font-size: 0.88rem; padding: 7px 11px; outline: none;
+  transition: border-color 0.2s;
+}
+.comm-phrase-input:focus { border-color: var(--brand-purple-light); }
+.btn-del-phrase {
+  background: rgba(232,64,64,0.12); border: 1px solid rgba(232,64,64,0.25);
+  color: var(--brand-red); border-radius: var(--radius-sm); padding: 5px 9px;
+  cursor: pointer; font-size: 0.85rem; transition: background 0.2s; flex-shrink: 0;
+}
+.btn-del-phrase:hover { background: rgba(232,64,64,0.25); }
+.btn-add-phrase {
+  background: rgba(91,53,176,0.15); border: 1px solid rgba(91,53,176,0.3);
+  color: var(--brand-purple-light); border-radius: var(--radius-sm); padding: 5px 12px;
+  cursor: pointer; font-size: 0.82rem; font-weight: 700; transition: background 0.2s; align-self: flex-start;
+}
+.btn-add-phrase:hover { background: rgba(91,53,176,0.25); }
+
+/* Topics list */
+.topics-list { display: flex; flex-direction: column; gap: 9px; margin-top: 14px; }
 .topic-item {
   background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: var(--radius-lg);
-  padding: 16px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; transition: background 0.2s;
+  padding: 14px; display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; transition: background 0.2s;
 }
 .topic-item:hover { background: rgba(255,255,255,0.07); }
 .topic-item-info { flex: 1; }
-.topic-item-head { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-.topic-item-title { font-weight: 800; font-size: 1rem; }
-.topic-item-desc { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px; }
+.topic-item-head { display: flex; align-items: center; gap: 9px; margin-bottom: 5px; }
+.topic-item-title { font-weight: 800; font-size: 0.95rem; }
+.topic-item-desc { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 5px; line-height: 1.45; }
 .topic-item-vocab { display: flex; flex-wrap: wrap; gap: 4px; }
 .topic-item-delete {
-  background: rgba(232,64,64,0.1); border: 1px solid rgba(232,64,64,0.25); color: var(--brand-red);
-  border-radius: var(--radius-md); padding: 6px 10px; cursor: pointer; font-size: 1rem; transition: background 0.2s; flex-shrink: 0;
+  background: rgba(232,64,64,0.1); border: 1px solid rgba(232,64,64,0.25);
+  color: var(--brand-red); border-radius: var(--radius-md); padding: 6px 10px;
+  cursor: pointer; font-size: 0.95rem; transition: background 0.2s; flex-shrink: 0;
 }
 .topic-item-delete:hover { background: rgba(232,64,64,0.25); }
 
-/* RECAP */
+/* ── RECAP ───────────────────────────────── */
 #screen-recap { background: var(--bg-base); align-items: center; justify-content: center; }
 .recap-bg { position: fixed; inset: 0; pointer-events: none; }
 .recap-main { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; width: 100%; padding: 24px; }
 .recap-card {
   background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: var(--radius-xl);
-  padding: 40px; max-width: 460px; width: 100%; text-align: center; box-shadow: var(--shadow-lg);
+  padding: 38px; max-width: 440px; width: 100%; text-align: center; box-shadow: var(--shadow-lg);
 }
-.recap-icon { font-size: 4rem; margin-bottom: 16px; animation: bounce 1.5s ease infinite; }
-.recap-card h2 { font-family: 'Baloo 2', cursive; font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
-.recap-sub { color: var(--text-secondary); margin-bottom: 24px; }
-.recap-topic-info { background: rgba(255,255,255,0.04); border-radius: var(--radius-md); padding: 14px; margin-bottom: 16px; font-size: 0.95rem; color: var(--text-secondary); }
-.recap-notes-saved { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px; font-style: italic; }
-.recap-actions { display: flex; gap: 12px; justify-content: center; }
+.recap-icon { font-size: 3.8rem; margin-bottom: 14px; animation: logoBounce 2s ease infinite; }
+.recap-card h2 { font-family: 'Baloo 2', cursive; font-size: 1.9rem; font-weight: 800; margin-bottom: 7px; }
+.recap-sub { color: var(--text-secondary); margin-bottom: 22px; font-size: 0.92rem; }
+.recap-topic-info { background: rgba(255,255,255,0.04); border-radius: var(--radius-md); padding: 13px; margin-bottom: 14px; font-size: 0.92rem; color: var(--text-secondary); }
+.recap-notes-saved { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 22px; font-style: italic; }
+.recap-actions { display: flex; gap: 10px; justify-content: center; }
 
-/* CONFETTI */
-.confetti-piece { position: absolute; width: 10px; height: 10px; border-radius: 2px; animation: confettiFall linear forwards; }
+/* ── CONFETTI ────────────────────────────── */
+.confetti-piece {
+  position: absolute; border-radius: 2px;
+  animation: confettiFall linear forwards;
+}
 @keyframes confettiFall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
 
-/* RESPONSIVE */
+/* ── RESPONSIVE ──────────────────────────── */
 @media (max-width: 600px) {
-  .exchange-grid { grid-template-columns: 1fr; }
-  .panel-notes { grid-column: 1; }
-  .draw-card { width: 300px; height: 200px; }
-  .login-card { padding: 28px 24px; }
+  .draw-card-wrap, .draw-card-closed, .draw-card-reveal { width: 300px; }
+  .login-card { padding: 28px 22px; }
   .form-grid { grid-template-columns: 1fr; }
-  .btn-spin { width: 180px; height: 180px; }
+  .btn-spin { width: 170px; height: 170px; }
   .admin-main { padding: 12px; }
+  .timer-settings { flex-direction: column; }
 }
 </style>
 </head>
 <body>
 
-  <!-- ===== LOGIN ===== -->
-  <div id="screen-login" class="screen active">
-    <div class="login-bg">
-      <div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div>
-    </div>
-    <div class="login-card">
-      <div class="logo-wrap">
-        <span class="logo-icon">🗣️</span>
-        <h1 class="logo-title">Oralísimo</h1>
-        <p class="logo-sub">L'oral en classe, c'est un jeu !</p>
-      </div>
-      <div class="level-section">
-        <p class="level-label">Sélectionne ton niveau :</p>
-        <div class="level-buttons">
-          <button class="level-btn" data-level="5eme" onclick="selectLevel('5eme')">
-            <span class="level-emoji">🌱</span><span class="level-name">5ème</span>
-          </button>
-          <button class="level-btn" data-level="3eme" onclick="selectLevel('3eme')">
-            <span class="level-emoji">🚀</span><span class="level-name">3ème</span>
-          </button>
-        </div>
-      </div>
-      <button class="btn-primary" id="btn-enter" onclick="enterApp()" disabled>¡ Entrar ! →</button>
-    </div>
+<!-- ═══════════════════════════════════════════
+     LOGIN
+════════════════════════════════════════════ -->
+<div id="screen-login" class="screen active">
+  <div class="login-bg">
+    <div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div>
   </div>
-
-  <!-- ===== HOME ===== -->
-  <div id="screen-home" class="screen">
-    <header class="app-header">
-      <div class="header-logo" onclick="goHome()">🗣️ Oralísimo</div>
-      <div class="header-center"><span class="badge-level" id="badge-level-home">5ème</span></div>
-      <div class="header-actions">
-        <button class="btn-icon" onclick="goToAdmin()" title="Gérer les sujets">⚙️</button>
-        <button class="btn-icon" onclick="changeLevel()" title="Changer de niveau">🔄</button>
-        <button class="btn-icon btn-fullscreen" onclick="toggleFullscreen()" title="Plein écran">⛶</button>
-      </div>
-    </header>
-    <main class="home-main">
-      <div class="home-stats">
-        <div class="stat-chip"><span class="stat-num" id="stat-num">0</span><span class="stat-txt">sujets disponibles</span></div>
-      </div>
-      <div class="spin-zone">
-        <div class="spin-decoration"><div class="ring ring-1"></div><div class="ring ring-2"></div><div class="ring ring-3"></div></div>
-        <button class="btn-spin" onclick="drawTopic()">
-          <span class="btn-spin-icon">🎲</span>
-          <span class="btn-spin-text">Pincha un tema</span>
+  <div class="login-card">
+    <div class="logo-wrap">
+      <span class="logo-icon">🗣️</span>
+      <h1 class="logo-title">Oralísimo</h1>
+      <p class="logo-sub">L'oral en classe, c'est un jeu !</p>
+    </div>
+    <div class="level-section">
+      <p class="level-label">Sélectionne ton niveau :</p>
+      <div class="level-buttons">
+        <button class="level-btn" data-level="5eme" onclick="selectLevel('5eme')">
+          <span class="level-emoji">🌱</span><span class="level-name">5ème</span>
+        </button>
+        <button class="level-btn" data-level="3eme" onclick="selectLevel('3eme')">
+          <span class="level-emoji">🚀</span><span class="level-name">3ème</span>
         </button>
       </div>
-      <div class="quick-actions">
-        <button class="quick-btn" onclick="goToAdmin()"><span>✏️</span> Gérer les sujets</button>
-      </div>
-    </main>
+    </div>
+    <button class="btn-primary" id="btn-enter" onclick="enterApp()" disabled>¡ Entrar ! →</button>
+    <p class="login-copyright">© 2026 Lucas Le Coadou — Oralísimo</p>
   </div>
+</div>
 
-  <!-- ===== DRAW ===== -->
-  <div id="screen-draw" class="screen">
-    <header class="app-header">
-      <div class="header-logo" onclick="goHome()">🗣️ Oralísimo</div>
-      <div class="header-center"><span class="badge-level" id="badge-level-draw">5ème</span></div>
-      <div class="header-actions">
-        <button class="btn-icon" onclick="goHome()">🏠</button>
-        <button class="btn-icon btn-fullscreen" onclick="toggleFullscreen()" title="Plein écran">⛶</button>
-      </div>
-    </header>
-    <main class="draw-main">
-      <div class="draw-stage" id="draw-stage">
-        <div class="draw-card" id="draw-card">
-          <div class="draw-card-inner">
-            <div class="draw-card-front"><span class="draw-question">❓</span></div>
-            <div class="draw-card-back" id="draw-card-back">
-              <div class="topic-type-badge" id="topic-type-badge">DÉBAT</div>
-              <h2 class="topic-title" id="topic-title">Thème</h2>
-              <p class="topic-desc" id="topic-desc">Description du thème</p>
-            </div>
-          </div>
+<!-- ═══════════════════════════════════════════
+     HOME
+════════════════════════════════════════════ -->
+<div id="screen-home" class="screen">
+  <header class="app-header">
+    <div class="header-logo" onclick="goHome()">🗣️ Oralísimo</div>
+    <div class="header-center"><span class="badge-level" id="badge-level-home">5ème</span></div>
+    <div class="header-actions">
+      <button class="btn-icon" onclick="goToAdmin()" title="Réglages">⚙️</button>
+      <button class="btn-icon" onclick="changeLevel()" title="Changer de niveau">🔄</button>
+      <button class="btn-icon btn-fullscreen" onclick="toggleFullscreen()" title="Plein écran">⛶</button>
+    </div>
+  </header>
+  <main class="home-main">
+    <div class="home-stats">
+      <div class="stat-chip"><span class="stat-num" id="stat-num">0</span><span class="stat-txt">sujets disponibles</span></div>
+    </div>
+    <div class="spin-zone">
+      <div class="spin-decoration"><div class="ring ring-1"></div><div class="ring ring-2"></div><div class="ring ring-3"></div></div>
+      <button class="btn-spin" onclick="drawTopic()">
+        <span class="btn-spin-icon">🎲</span>
+        <span class="btn-spin-text">Pincha un tema</span>
+      </button>
+    </div>
+    <div class="quick-actions">
+      <button class="quick-btn" onclick="goToAdmin()"><span>⚙️</span> Réglages</button>
+    </div>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     DRAW
+════════════════════════════════════════════ -->
+<div id="screen-draw" class="screen">
+  <header class="app-header">
+    <div class="header-logo" onclick="goHome()">🗣️ Oralísimo</div>
+    <div class="header-center"><span class="badge-level" id="badge-level-draw">5ème</span></div>
+    <div class="header-actions">
+      <button class="btn-icon" onclick="goHome()">🏠</button>
+      <button class="btn-icon btn-fullscreen" onclick="toggleFullscreen()">⛶</button>
+    </div>
+  </header>
+  <main class="draw-main">
+    <div class="draw-stage">
+      <div class="draw-card-wrap" id="draw-card-wrap">
+        <div class="draw-card-closed" id="draw-card-closed">❓</div>
+        <div class="draw-card-reveal" id="draw-card-reveal">
+          <span class="topic-type-badge" id="draw-badge">DÉBAT</span>
+          <div class="topic-title" id="draw-title">Titre</div>
+          <div class="topic-desc" id="draw-desc">Description</div>
         </div>
-      </div>
-      <div class="draw-actions" id="draw-actions" style="display:none">
-        <button class="btn-secondary" onclick="redrawTopic()">🔄 Relancer</button>
-        <button class="btn-primary" onclick="startPrep()">⏱️ Commencer la préparation</button>
-      </div>
-    </main>
-  </div>
-
-  <!-- ===== PREP ===== -->
-  <div id="screen-prep" class="screen">
-    <header class="app-header">
-      <div class="header-logo" onclick="goHome()">🗣️ Oralísimo</div>
-      <div class="header-center"><span class="badge-level" id="badge-level-prep">5ème</span></div>
-      <div class="header-actions">
-        <button class="btn-icon" onclick="goHome()">🏠</button>
-        <button class="btn-icon btn-fullscreen" onclick="toggleFullscreen()" title="Plein écran">⛶</button>
-      </div>
-    </header>
-    <main class="prep-main">
-      <div class="prep-topic-recap">
-        <span class="prep-topic-badge" id="prep-topic-badge">DÉBAT</span>
-        <h2 id="prep-topic-title">Thème sélectionné</h2>
-      </div>
-      <div class="timer-zone">
-        <div class="timer-circle">
-          <svg class="timer-svg" viewBox="0 0 200 200">
-            <circle class="timer-track" cx="100" cy="100" r="88"/>
-            <circle class="timer-progress" id="timer-arc" cx="100" cy="100" r="88" stroke-dasharray="553" stroke-dashoffset="0"/>
-          </svg>
-          <div class="timer-display">
-            <div class="timer-num" id="timer-display">5:00</div>
-            <div class="timer-label">préparation</div>
-          </div>
-        </div>
-      </div>
-      <div class="prep-controls">
-        <button class="btn-secondary" onclick="pauseTimer()" id="btn-pause">⏸️ Pause</button>
-        <button class="btn-danger" onclick="skipToExchange()">⏭️ Passer à l'échange</button>
-      </div>
-      <div class="prep-hint"><span>💡</span> Les élèves préparent leurs arguments en silence…</div>
-    </main>
-  </div>
-
-  <!-- ===== EXCHANGE ===== -->
-  <div id="screen-exchange" class="screen">
-    <header class="app-header exchange-header">
-      <div class="header-logo" onclick="goHome()">🗣️ Oralísimo</div>
-      <div class="header-center"><div class="exchange-timer-mini" id="exchange-timer-mini">⏱️ 00:00</div></div>
-      <div class="header-actions">
-        <button class="btn-icon" onclick="goHome()">🏠</button>
-        <button class="btn-icon btn-fullscreen" onclick="toggleFullscreen()" title="Plein écran">⛶</button>
-      </div>
-    </header>
-    <div class="character-overlay" id="character-overlay">
-      <div class="character-wrap">
-        <div class="character-bubble">¡Es hora de hablar! 🎙️</div>
-        <div class="character-avatar">🗣️</div>
-        <div class="character-name">Oralísimo</div>
       </div>
     </div>
-    <main class="exchange-main">
-      <div class="exchange-header-info">
-        <span class="exchange-topic-badge" id="exchange-topic-badge">DÉBAT</span>
-        <h2 class="exchange-topic-title" id="exchange-topic-title">Thème</h2>
-      </div>
-      <div class="exchange-grid">
-        <div class="exchange-panel panel-comm">
-          <div class="panel-header"><span>💬</span> Aide à la communication</div>
-          <div class="panel-body" id="panel-comm-body"></div>
+    <div id="draw-counter-el" style="text-align:center;color:var(--text-muted);font-size:0.82rem;font-weight:700;"></div>
+    <div class="draw-actions" id="draw-actions" style="display:none">
+      <button class="btn-secondary" onclick="redrawTopic()">🔄 Relancer</button>
+      <button class="btn-primary" onclick="startPrep()">⏱️ Commencer la préparation</button>
+    </div>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PREP
+════════════════════════════════════════════ -->
+<div id="screen-prep" class="screen">
+  <header class="app-header">
+    <div class="header-logo" onclick="goHome()">🗣️ Oralísimo</div>
+    <div class="header-center"><span class="badge-level" id="badge-level-prep">5ème</span></div>
+    <div class="header-actions">
+      <button class="btn-icon" onclick="goHome()">🏠</button>
+      <button class="btn-icon btn-fullscreen" onclick="toggleFullscreen()">⛶</button>
+    </div>
+  </header>
+  <main class="prep-main">
+    <div class="prep-topic-recap">
+      <span class="prep-topic-badge" id="prep-topic-badge">DÉBAT</span>
+      <h2 id="prep-topic-title">Thème sélectionné</h2>
+    </div>
+    <div class="timer-zone">
+      <div class="timer-circle">
+        <svg class="timer-svg" viewBox="0 0 200 200">
+          <circle class="timer-track" cx="100" cy="100" r="88"/>
+          <circle class="timer-progress" id="timer-arc" cx="100" cy="100" r="88" stroke-dasharray="553" stroke-dashoffset="0"/>
+        </svg>
+        <div class="timer-display">
+          <div class="timer-num" id="timer-display">5:00</div>
+          <div class="timer-label">préparation</div>
         </div>
-        <div class="exchange-panel panel-vocab">
-          <div class="panel-header"><span>📖</span> Vocabulaire du thème</div>
-          <div class="panel-body" id="panel-vocab-body"></div>
-        </div>
-        <div class="exchange-panel panel-notes">
-          <div class="panel-header"><span>📝</span> Notes de la classe</div>
-          <div class="panel-body">
-            <textarea id="notes-area" class="notes-textarea" placeholder="Notez les idées importantes de l'échange ici…"></textarea>
-          </div>
-        </div>
       </div>
-      <div class="exchange-footer">
-        <button class="btn-secondary" onclick="toggleExchangeTimer()" id="btn-exchange-timer">⏸️ Pause échange</button>
-        <button class="btn-primary" onclick="endExchange()">✅ Terminer l'échange</button>
-      </div>
-    </main>
+    </div>
+    <div class="prep-controls">
+      <button class="btn-secondary" onclick="pauseTimer()" id="btn-pause">⏸️ Pause</button>
+      <button class="btn-danger" onclick="skipToExchange()">⏭️ Passer à l'échange</button>
+    </div>
+    <div class="prep-hint">💡 Les élèves préparent leurs arguments en silence…</div>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     EXCHANGE
+════════════════════════════════════════════ -->
+<div id="screen-exchange" class="screen">
+  <header class="app-header exchange-header-bar">
+    <div class="header-logo" onclick="goHome()">🗣️ Oralísimo</div>
+    <div class="header-center"><div class="exchange-timer-mini" id="exchange-timer-mini">⏱️ 00:00</div></div>
+    <div class="header-actions">
+      <button class="btn-icon" onclick="goHome()">🏠</button>
+      <button class="btn-icon btn-fullscreen" onclick="toggleFullscreen()">⛶</button>
+    </div>
+  </header>
+
+  <!-- Oralisimo entrance -->
+  <div class="character-overlay" id="character-overlay" style="display:none">
+    <div class="character-wrap">
+      <div class="character-bubble">¡ Es hora de hablar ! 🎙️</div>
+      <span class="character-avatar">🗣️</span>
+      <div class="character-name">Oralísimo</div>
+    </div>
   </div>
 
-  <!-- ===== ADMIN ===== -->
-  <div id="screen-admin" class="screen">
-    <header class="app-header">
-      <div class="header-logo" onclick="goHome()">🗣️ Oralísimo</div>
-      <div class="header-center"><span class="badge-level" id="badge-level-admin">5ème</span></div>
-      <div class="header-actions">
-        <button class="btn-icon" onclick="goHome()">🏠</button>
-        <button class="btn-icon btn-fullscreen" onclick="toggleFullscreen()" title="Plein écran">⛶</button>
-      </div>
-    </header>
-    <main class="admin-main">
-      <div class="admin-top">
-        <h2 class="admin-title">⚙️ Gérer les sujets</h2>
-        <div class="admin-level-tabs">
-          <button class="tab-btn active" id="tab-5eme" onclick="switchAdminLevel('5eme')">5ème</button>
-          <button class="tab-btn" id="tab-3eme" onclick="switchAdminLevel('3eme')">3ème</button>
-        </div>
-      </div>
-      <div class="admin-form-card">
-        <h3 class="form-title">➕ Nouveau sujet</h3>
-        <div class="form-grid">
-          <div class="form-group">
-            <label>Type</label>
-            <select id="new-type" class="form-input"><option value="situation">Situation</option><option value="debat">Débat</option></select>
-          </div>
-          <div class="form-group form-full">
-            <label>Titre du sujet</label>
-            <input type="text" id="new-title" class="form-input" placeholder="Ex: ¿Qué harías si...?" />
-          </div>
-          <div class="form-group form-full">
-            <label>Description / consigne</label>
-            <textarea id="new-desc" class="form-input form-textarea" placeholder="Décris le contexte ou la question de débat…"></textarea>
-          </div>
-          <div class="form-group form-full">
-            <label>Vocabulaire clé (un mot par ligne)</label>
-            <textarea id="new-vocab" class="form-input form-textarea" placeholder="el viaje&#10;el transporte&#10;la ciudad…"></textarea>
-          </div>
-        </div>
-        <button class="btn-primary" onclick="addTopic()">Ajouter le sujet ✅</button>
-      </div>
-      <div class="admin-list-section">
-        <h3 class="form-title" id="admin-list-title">Sujets pour la 5ème</h3>
-        <div class="topics-list" id="topics-list"></div>
-      </div>
-    </main>
-  </div>
+  <main class="exchange-main">
+    <!-- Topic banner -->
+    <div class="exchange-topic-banner">
+      <span class="topic-type-badge" id="exchange-topic-badge" style="display:inline-block;margin-bottom:6px">DÉBAT</span>
+      <h2 id="exchange-topic-title">Thème</h2>
+    </div>
 
-  <!-- ===== RECAP ===== -->
-  <div id="screen-recap" class="screen">
-    <div class="recap-bg"><div class="confetti" id="confetti-zone"></div></div>
-    <main class="recap-main">
-      <div class="recap-card">
-        <div class="recap-icon">🏆</div>
-        <h2>¡ Bravo a todos !</h2>
-        <p class="recap-sub">Échange terminé avec succès</p>
-        <div class="recap-topic-info" id="recap-topic-info"></div>
-        <div class="recap-notes-saved" id="recap-notes-saved"></div>
-        <div class="recap-actions">
-          <button class="btn-secondary" onclick="goHome(); setTimeout(drawTopic, 50);">🎲 Nouveau sujet</button>
-          <button class="btn-primary" onclick="goHome()">🏠 Accueil</button>
+    <!-- Accordéon panels -->
+    <div class="accord-list">
+      <!-- Communication -->
+      <div class="accord-item panel-comm" id="accord-comm">
+        <button class="accord-trigger" onclick="toggleAccord('accord-comm')">
+          <span class="accord-trigger-left"><span class="accord-icon">💬</span> Aide à la communication</span>
+          <span class="accord-arrow">▼</span>
+        </button>
+        <div class="accord-body"><ul class="comm-list" id="panel-comm-body"></ul></div>
+      </div>
+
+      <!-- Vocabulaire -->
+      <div class="accord-item panel-vocab" id="accord-vocab">
+        <button class="accord-trigger" onclick="toggleAccord('accord-vocab')">
+          <span class="accord-trigger-left"><span class="accord-icon">📖</span> Vocabulaire du thème</span>
+          <span class="accord-arrow">▼</span>
+        </button>
+        <div class="accord-body"><ul class="vocab-list" id="panel-vocab-body"></ul></div>
+      </div>
+
+      <!-- Notes -->
+      <div class="accord-item panel-notes is-notes" id="accord-notes">
+        <button class="accord-trigger" onclick="toggleAccord('accord-notes')">
+          <span class="accord-trigger-left"><span class="accord-icon">📝</span> Notes de la classe</span>
+          <span class="accord-arrow">▼</span>
+        </button>
+        <div class="accord-body">
+          <textarea id="notes-area" class="notes-textarea" placeholder="Notez les idées importantes de l'échange ici…"></textarea>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
 
+    <div class="exchange-footer">
+      <button class="btn-secondary" onclick="toggleExchangeTimer()" id="btn-exchange-timer">⏸️ Pause</button>
+      <button class="btn-primary" onclick="endExchange()">✅ Terminer l'échange</button>
+    </div>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ADMIN / RÉGLAGES
+════════════════════════════════════════════ -->
+<div id="screen-admin" class="screen">
+  <header class="app-header">
+    <div class="header-logo" onclick="goHome()">🗣️ Oralísimo</div>
+    <div class="header-center"><span class="badge-level" id="badge-level-admin">5ème</span></div>
+    <div class="header-actions">
+      <button class="btn-icon" onclick="goHome()">🏠</button>
+      <button class="btn-icon btn-fullscreen" onclick="toggleFullscreen()">⛶</button>
+    </div>
+  </header>
+  <main class="admin-main">
+    <div class="admin-top">
+      <h2 class="admin-title">⚙️ Réglages</h2>
+      <div class="admin-level-tabs">
+        <button class="tab-btn active" id="tab-5eme" onclick="switchAdminLevel('5eme')">5ème</button>
+        <button class="tab-btn" id="tab-3eme" onclick="switchAdminLevel('3eme')">3ème</button>
+      </div>
+    </div>
+
+    <!-- Timers -->
+    <div class="admin-section">
+      <div class="admin-section-title">⏱️ Durées</div>
+      <div class="timer-settings">
+        <div class="timer-setting-box">
+          <div class="timer-setting-label">Préparation</div>
+          <input type="number" id="setting-prep-min" class="timer-setting-input" min="1" max="30" value="5">
+          <div class="timer-setting-unit">minutes</div>
+        </div>
+        <div class="timer-setting-box">
+          <div class="timer-setting-label">Échange max</div>
+          <input type="number" id="setting-exchange-min" class="timer-setting-input" min="1" max="60" value="10">
+          <div class="timer-setting-unit">minutes (indicatif)</div>
+        </div>
+      </div>
+      <div style="margin-top:14px">
+        <button class="btn-primary" onclick="saveTimerSettings()" style="font-size:0.9rem;padding:10px 24px">💾 Enregistrer les durées</button>
+      </div>
+    </div>
+
+    <!-- Aide comm editor -->
+    <div class="admin-section">
+      <div class="admin-section-title">💬 Aide à la communication</div>
+      <div class="comm-editor" id="comm-editor"></div>
+      <div style="margin-top:14px">
+        <button class="btn-primary" onclick="saveCommAide()" style="font-size:0.9rem;padding:10px 24px">💾 Enregistrer l'aide</button>
+      </div>
+    </div>
+
+    <!-- Nouveau sujet -->
+    <div class="admin-section">
+      <div class="admin-section-title">➕ Nouveau sujet</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Type</label>
+          <select id="new-type" class="form-input"><option value="situation">Situation</option><option value="debat">Débat</option></select>
+        </div>
+        <div class="form-group form-full">
+          <label>Titre du sujet</label>
+          <input type="text" id="new-title" class="form-input" placeholder="Ex: ¿Qué harías si...?" />
+        </div>
+        <div class="form-group form-full">
+          <label>Description / consigne</label>
+          <textarea id="new-desc" class="form-input form-textarea" placeholder="Décris le contexte ou la question de débat…"></textarea>
+        </div>
+        <div class="form-group form-full">
+          <label>Vocabulaire clé (un mot par ligne)</label>
+          <textarea id="new-vocab" class="form-input form-textarea" placeholder="el viaje&#10;el transporte&#10;la ciudad…"></textarea>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="addTopic()" style="font-size:0.9rem;padding:10px 24px">Ajouter le sujet ✅</button>
+    </div>
+
+    <!-- Liste sujets -->
+    <div class="admin-section">
+      <div class="admin-section-title" id="admin-list-title">📋 Sujets pour la 5ème</div>
+      <div class="topics-list" id="topics-list"></div>
+    </div>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     RECAP
+════════════════════════════════════════════ -->
+<div id="screen-recap" class="screen">
+  <div class="recap-bg"><div id="confetti-zone"></div></div>
+  <main class="recap-main">
+    <div class="recap-card">
+      <div class="recap-icon">🏆</div>
+      <h2>¡ Bravo a todos !</h2>
+      <p class="recap-sub">Échange terminé avec succès</p>
+      <div class="recap-topic-info" id="recap-topic-info"></div>
+      <div class="recap-notes-saved" id="recap-notes-saved"></div>
+      <div class="recap-actions">
+        <button class="btn-secondary" onclick="goHome(); setTimeout(drawTopic, 50)">🎲 Nouveau sujet</button>
+        <button class="btn-primary" onclick="goHome()">🏠 Accueil</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════ -->
 <script>
-// =============================================
-// ORALÍSIMO — DONNÉES
-// =============================================
+'use strict';
+
+// ── DEFAULT DATA ──────────────────────────────
 const DEFAULT_TOPICS = {
   "5eme": [
     { id:"5e-s1", type:"situation", title:"¡ Un día en España !", desc:"Tu es en vacances à Madrid. Tu demandes ton chemin à un passant pour aller au musée del Prado.", vocab:["el museo","la calle","girar","todo recto","a la derecha","a la izquierda","perdona","¿dónde está?"] },
@@ -643,46 +833,62 @@ const DEFAULT_TOPICS = {
   ]
 };
 
-const COMM_AIDE = [
+const DEFAULT_COMM_AIDE = [
   { cat:"Donner son avis",      phrases:["Según yo… / Para mí…","Creo que… / Pienso que…","En mi opinión…","Estoy convencido/a de que…"] },
   { cat:"Nuancer / Contredire", phrases:["Sin embargo… / Pero…","Por otro lado…","No estoy de acuerdo porque…","Tienes razón, pero…"] },
   { cat:"Demander la parole",   phrases:["¿Puedo añadir algo?","Perdona, quiero decir que…","¿Me dejas hablar?","Para completar lo que dijiste…"] },
   { cat:"Structurer",           phrases:["Primero… luego… finalmente…","Por una parte… por otra…","Por ejemplo…","En conclusión…"] }
 ];
 
-// =============================================
-// ORALÍSIMO — LOGIQUE
-// =============================================
+// ── STATE ─────────────────────────────────────
 const State = {
-  level: null, topics: [], currentTopic: null, drawnIds: [],
-  timerInterval: null, timerSeconds: 300, timerRunning: false,
-  exchangeInterval: null, exchangeSeconds: 0, exchangeRunning: false,
+  level: null,
+  currentTopic: null,
+  drawnIds: [],
+  timerInterval: null,
+  timerSeconds: 300,
+  timerTotal: 300,
+  timerRunning: false,
+  exchangeInterval: null,
+  exchangeSeconds: 0,
+  exchangeRunning: false,
   isFullscreen: false,
 };
 
-// Storage
-function loadTopics() { try { const s = localStorage.getItem('oralisimo_topics'); return s ? JSON.parse(s) : null; } catch(e) { return null; } }
-function getTopicsForLevel(level) { const s = loadTopics(); return (s && s[level]) ? s[level] : (DEFAULT_TOPICS[level] || []); }
+// ── STORAGE HELPERS ───────────────────────────
+function ls(key, def) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : def; } catch { return def; }
+}
+function lsSet(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch {} }
+
+function getTopicsForLevel(level) {
+  const saved = ls('oralisimo_topics', null);
+  return (saved && saved[level]) ? saved[level] : (DEFAULT_TOPICS[level] || []);
+}
 function getAllTopics() { return { "5eme": getTopicsForLevel("5eme"), "3eme": getTopicsForLevel("3eme") }; }
 
-// Navigation
+function getCommAide()  { return ls('oralisimo_comm', DEFAULT_COMM_AIDE); }
+function getPrepSecs()  { return ls('oralisimo_prep_secs', 300); }
+function getExchMins()  { return ls('oralisimo_exch_mins', 10); }
+
+// ── NAVIGATION ────────────────────────────────
 function goToScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const t = document.getElementById(id);
-  if (t) { t.classList.add('active'); window.scrollTo(0,0); }
+  if (t) { t.classList.add('active'); t.scrollTop = 0; }
 }
-function goHome() { stopPrepTimer(); stopExchangeTimer(); updateHomeStats(); updateBadges(); goToScreen('screen-home'); }
+function goHome()      { stopPrepTimer(); stopExchangeTimer(); updateHomeStats(); updateBadges(); goToScreen('screen-home'); }
 function changeLevel() { stopPrepTimer(); stopExchangeTimer(); State.drawnIds = []; goToScreen('screen-login'); }
-function goToAdmin() { updateAdminLevel(State.level || '5eme'); updateBadges(); goToScreen('screen-admin'); }
+function goToAdmin()   { renderAdminPage(); updateBadges(); goToScreen('screen-admin'); }
 function updateBadges() {
-  const label = State.level === '3eme' ? '3ème' : '5ème';
-  document.querySelectorAll('[id^="badge-level"]').forEach(el => el.textContent = label);
+  const lbl = State.level === '3eme' ? '3ème' : '5ème';
+  document.querySelectorAll('[id^="badge-level"]').forEach(el => el.textContent = lbl);
 }
 
-// Login
+// ── LOGIN ─────────────────────────────────────
 function selectLevel(level) {
   State.level = level;
-  document.querySelectorAll('.level-btn').forEach(btn => btn.classList.toggle('selected', btn.dataset.level === level));
+  document.querySelectorAll('.level-btn').forEach(b => b.classList.toggle('selected', b.dataset.level === level));
   document.getElementById('btn-enter').disabled = false;
 }
 function enterApp() {
@@ -691,126 +897,120 @@ function enterApp() {
   updateHomeStats(); updateBadges(); goToScreen('screen-home');
 }
 
-// Home stats
+// ── HOME STATS ────────────────────────────────
 function updateHomeStats() {
-  const topics = getTopicsForLevel(State.level || '5eme');
-  const total = topics.length;
-  const drawn = State.drawnIds.filter(id => topics.find(t => t.id === id)).length;
-  const remaining = total - drawn;
+  const topics  = getTopicsForLevel(State.level || '5eme');
+  const total   = topics.length;
+  const drawn   = State.drawnIds.filter(id => topics.find(t => t.id === id)).length;
+  const remain  = total - drawn;
   const numEl = document.getElementById('stat-num');
   if (numEl) numEl.textContent = total;
 
   let prog = document.getElementById('home-progress');
   if (!prog) {
-    prog = document.createElement('div');
-    prog.id = 'home-progress';
-    prog.style.cssText = 'width:100%;max-width:300px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:6px;';
-    prog.innerHTML = `<div style="width:100%;height:8px;background:rgba(255,255,255,0.08);border-radius:99px;overflow:hidden;"><div id="home-prog-bar" style="height:100%;border-radius:99px;background:var(--brand-yellow);transition:width 0.5s ease;width:0%"></div></div><span id="home-prog-label" style="font-size:0.8rem;color:var(--text-muted);font-weight:700"></span>`;
-    const statsEl = document.querySelector('.home-stats');
-    if (statsEl) statsEl.appendChild(prog);
+    prog = document.createElement('div'); prog.id = 'home-progress';
+    prog.style.cssText = 'width:100%;max-width:280px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:5px;';
+    prog.innerHTML = `<div style="width:100%;height:7px;background:rgba(255,255,255,0.08);border-radius:99px;overflow:hidden;"><div id="home-prog-bar" style="height:100%;border-radius:99px;background:var(--brand-yellow);transition:width 0.5s;width:0%"></div></div><span id="home-prog-label" style="font-size:0.78rem;color:var(--text-muted);font-weight:700"></span>`;
+    document.querySelector('.home-stats')?.appendChild(prog);
   }
-  const pct = total > 0 ? Math.round((drawn / total) * 100) : 0;
+  const pct = total ? Math.round(drawn/total*100) : 0;
   const bar = document.getElementById('home-prog-bar');
   const lbl = document.getElementById('home-prog-label');
   if (bar) bar.style.width = pct + '%';
-  if (lbl) {
-    if (drawn === 0) lbl.textContent = 'Aucun sujet tiré cette session';
-    else if (remaining === 0) lbl.textContent = '🏁 Tous les sujets tirés !';
-    else lbl.textContent = `${drawn} tiré${drawn>1?'s':''} · ${remaining} restant${remaining>1?'s':''}`;
-  }
+  if (lbl) lbl.textContent = drawn === 0 ? 'Aucun sujet tiré cette session' : remain === 0 ? '🏁 Tous les sujets tirés !' : `${drawn} tiré${drawn>1?'s':''} · ${remain} restant${remain>1?'s':''}`;
 }
 
-// Fullscreen
+// ── FULLSCREEN ────────────────────────────────
 function toggleFullscreen() {
   if (!document.fullscreenElement) {
     document.documentElement.requestFullscreen().catch(() => showToast('⚠️ Plein écran non autorisé'));
-  } else {
-    document.exitFullscreen();
-  }
+  } else { document.exitFullscreen(); }
 }
-function updateFullscreenButtons() {
+document.addEventListener('fullscreenchange', () => {
   const fs = !!document.fullscreenElement;
-  document.querySelectorAll('.btn-fullscreen').forEach(btn => { btn.textContent = fs ? '⊡' : '⛶'; btn.title = fs ? 'Quitter le plein écran' : 'Plein écran'; });
-}
-document.addEventListener('fullscreenchange', updateFullscreenButtons);
+  document.querySelectorAll('.btn-fullscreen').forEach(b => { b.textContent = fs ? '⊡' : '⛶'; b.title = fs ? 'Quitter plein écran' : 'Plein écran'; });
+});
 
-// Deduplication draw
-function pickNextTopic(topics, exclude) {
-  const remaining = topics.filter(t => !exclude.includes(t.id));
-  if (!remaining.length) {
-    const fresh = topics.filter(t => t.id !== (State.currentTopic && State.currentTopic.id));
-    return { topic: fresh[Math.floor(Math.random() * fresh.length)], cycleComplete: true };
+// ── DRAW — deduplication ──────────────────────
+function pickNext(topics, exclude) {
+  const pool = topics.filter(t => !exclude.includes(t.id));
+  if (!pool.length) {
+    const fresh = topics.filter(t => t.id !== State.currentTopic?.id);
+    return { topic: fresh[Math.floor(Math.random()*fresh.length)], cycle: true };
   }
-  return { topic: remaining[Math.floor(Math.random() * remaining.length)], cycleComplete: false };
+  return { topic: pool[Math.floor(Math.random()*pool.length)], cycle: false };
 }
 
 function drawTopic() {
   const topics = getTopicsForLevel(State.level);
-  if (!topics.length) { alert("Aucun sujet disponible !"); return; }
-  const { topic, cycleComplete } = pickNextTopic(topics, State.drawnIds);
+  if (!topics.length) { alert('Aucun sujet disponible !'); return; }
+  const { topic, cycle } = pickNext(topics, State.drawnIds);
   if (!topic) return;
-  if (cycleComplete) { State.drawnIds = []; showToast('🔁 Tous les sujets tirés — on repart du début !'); }
+  if (cycle) { State.drawnIds = []; showToast('🔁 Tous les sujets tirés — on repart du début !'); }
   State.currentTopic = topic;
   State.drawnIds.push(topic.id);
-  renderDrawCard(topic);
-  updateDrawCounter(topics.length);
-  goToScreen('screen-draw'); updateBadges();
-  const card = document.getElementById('draw-card');
-  card.classList.remove('flipped','animating');
+
+  // Reset card display
+  const reveal = document.getElementById('draw-card-reveal');
+  const closed = document.getElementById('draw-card-closed');
+  reveal.style.display = 'none';
+  closed.style.animation = 'none'; void closed.offsetWidth; closed.style.animation = '';
   document.getElementById('draw-actions').style.display = 'none';
-  void card.offsetWidth;
-  card.classList.add('animating');
+
+  goToScreen('screen-draw'); updateBadges();
+
+  // Short suspense then reveal
   setTimeout(() => {
-    card.classList.remove('animating'); card.classList.add('flipped');
-    setTimeout(() => { document.getElementById('draw-actions').style.display = 'flex'; }, 500);
-  }, 700);
+    closed.textContent = '✨';
+    setTimeout(() => {
+      renderDrawReveal(topic);
+      reveal.style.display = 'flex';
+      // counter
+      const total = topics.length;
+      const drawn = State.drawnIds.length;
+      const remain = total - drawn;
+      const el = document.getElementById('draw-counter-el');
+      if (el) el.textContent = remain <= 0 ? '✅ Tous les sujets tirés !' : `🎯 ${drawn}/${total} · ${remain} restant${remain>1?'s':''}`;
+      setTimeout(() => { document.getElementById('draw-actions').style.display = 'flex'; }, 300);
+    }, 400);
+  }, 600);
 }
 
-function renderDrawCard(topic) {
-  const badge = document.getElementById('topic-type-badge');
+function renderDrawReveal(topic) {
+  const badge = document.getElementById('draw-badge');
   badge.textContent = topic.type === 'debat' ? 'DÉBAT' : 'SITUATION';
   badge.className = 'topic-type-badge ' + topic.type;
-  document.getElementById('topic-title').textContent = topic.title;
-  document.getElementById('topic-desc').textContent = topic.desc;
-}
-
-function updateDrawCounter(total) {
-  const drawn = State.drawnIds.length;
-  const remaining = total - drawn;
-  let el = document.getElementById('draw-counter');
-  if (!el) {
-    el = document.createElement('div'); el.id = 'draw-counter';
-    el.style.cssText = 'text-align:center;color:var(--text-muted);font-size:0.82rem;font-weight:700;margin-top:4px;';
-    const stage = document.getElementById('draw-stage');
-    if (stage) stage.after(el);
-  }
-  el.textContent = remaining <= 0 ? '✅ Tous les sujets tirés !' : `🎯 ${drawn}/${total} sujets tirés · ${remaining} restant${remaining>1?'s':''}`;
+  document.getElementById('draw-title').textContent = topic.title;
+  document.getElementById('draw-desc').textContent = topic.desc;
 }
 
 function redrawTopic() {
-  const card = document.getElementById('draw-card');
-  card.classList.remove('flipped');
-  document.getElementById('draw-actions').style.display = 'none';
-  setTimeout(() => {
-    const topics = getTopicsForLevel(State.level);
-    if (!topics.length) return;
-    const excludeNow = [...State.drawnIds];
-    const remaining = topics.filter(t => !excludeNow.includes(t.id));
-    let topic, cycleComplete = false;
-    if (!remaining.length) {
-      State.drawnIds = State.currentTopic ? [State.currentTopic.id] : [];
-      const fresh = topics.filter(t => !State.drawnIds.includes(t.id));
-      if (!fresh.length) { showToast("Il n'y a qu'un seul sujet !"); card.classList.add('flipped'); setTimeout(()=>{ document.getElementById('draw-actions').style.display='flex'; },500); return; }
-      topic = fresh[Math.floor(Math.random() * fresh.length)]; cycleComplete = true;
-    } else { topic = remaining[Math.floor(Math.random() * remaining.length)]; }
-    if (cycleComplete) showToast('🔁 Cycle terminé — on repart du début !');
-    State.currentTopic = topic; State.drawnIds.push(topic.id);
-    renderDrawCard(topic); updateDrawCounter(topics.length);
-    setTimeout(() => { card.classList.add('flipped'); setTimeout(() => { document.getElementById('draw-actions').style.display = 'flex'; }, 500); }, 100);
-  }, 400);
+  const topics = getTopicsForLevel(State.level);
+  if (!topics.length) return;
+  const excludeNow = [...State.drawnIds];
+  const pool = topics.filter(t => !excludeNow.includes(t.id));
+  let topic, cycle = false;
+  if (!pool.length) {
+    State.drawnIds = State.currentTopic ? [State.currentTopic.id] : [];
+    const fresh = topics.filter(t => !State.drawnIds.includes(t.id));
+    if (!fresh.length) { showToast("Un seul sujet disponible !"); return; }
+    topic = fresh[Math.floor(Math.random()*fresh.length)]; cycle = true;
+  } else { topic = pool[Math.floor(Math.random()*pool.length)]; }
+  if (cycle) showToast('🔁 Cycle terminé — on repart !');
+  State.currentTopic = topic; State.drawnIds.push(topic.id);
+
+  const reveal = document.getElementById('draw-card-reveal');
+  reveal.style.display = 'none';
+  setTimeout(() => { renderDrawReveal(topic); reveal.style.display = 'flex'; }, 300);
+
+  const total = topics.length;
+  const drawn = State.drawnIds.length;
+  const remain = total - drawn;
+  const el = document.getElementById('draw-counter-el');
+  if (el) el.textContent = remain <= 0 ? '✅ Tous les sujets tirés !' : `🎯 ${drawn}/${total} · ${remain} restant${remain>1?'s':''}`;
 }
 
-// Prep Timer
+// ── PREP TIMER ────────────────────────────────
 function startPrep() {
   if (!State.currentTopic) return;
   const topic = State.currentTopic;
@@ -819,28 +1019,37 @@ function startPrep() {
   badge.style.background = topic.type === 'debat' ? 'var(--brand-orange)' : 'var(--brand-green)';
   badge.style.color = '#fff';
   document.getElementById('prep-topic-title').textContent = topic.title;
-  State.timerSeconds = 300; State.timerRunning = true;
-  updateTimerDisplay(300); updateTimerArc(300, 300);
-  document.getElementById('btn-pause').textContent = '⏸️ Pause';
+
+  State.timerTotal   = getPrepSecs();
+  State.timerSeconds = State.timerTotal;
+  State.timerRunning = true;
+
   const arc = document.getElementById('timer-arc');
-  arc.style.stroke = 'var(--brand-yellow)'; arc.style.filter = 'drop-shadow(0 0 8px rgba(245,196,0,0.7))';
+  arc.style.stroke = 'var(--brand-yellow)';
+  arc.style.filter = 'drop-shadow(0 0 7px rgba(245,196,0,0.7))';
+  updateTimerDisplay(State.timerTotal);
+  updateTimerArc(State.timerTotal, State.timerTotal);
+  document.getElementById('btn-pause').textContent = '⏸️ Pause';
+
   goToScreen('screen-prep'); updateBadges();
+
   State.timerInterval = setInterval(() => {
     if (!State.timerRunning) return;
     State.timerSeconds--;
-    updateTimerDisplay(State.timerSeconds); updateTimerArc(State.timerSeconds, 300);
-    if (State.timerSeconds <= 0) { stopPrepTimer(); triggerExchange(); return; }
+    updateTimerDisplay(State.timerSeconds);
+    updateTimerArc(State.timerSeconds, State.timerTotal);
     const a = document.getElementById('timer-arc');
-    if (State.timerSeconds <= 60) { a.style.stroke = 'var(--brand-red)'; a.style.filter = 'drop-shadow(0 0 8px rgba(232,64,64,0.8))'; }
-    else if (State.timerSeconds <= 120) { a.style.stroke = 'var(--brand-orange)'; a.style.filter = 'drop-shadow(0 0 8px rgba(255,124,26,0.7))'; }
+    if      (State.timerSeconds <= 60)  { a.style.stroke='var(--brand-red)';    a.style.filter='drop-shadow(0 0 8px rgba(232,64,64,0.8))'; }
+    else if (State.timerSeconds <= 120) { a.style.stroke='var(--brand-orange)'; a.style.filter='drop-shadow(0 0 8px rgba(232,108,16,0.7))'; }
+    if (State.timerSeconds <= 0) { stopPrepTimer(); triggerExchange(); }
   }, 1000);
 }
-function updateTimerDisplay(sec) {
-  const m = Math.floor(sec/60); const s = (sec%60).toString().padStart(2,'0');
-  document.getElementById('timer-display').textContent = `${m}:${s}`;
+function updateTimerDisplay(s) {
+  const m = Math.floor(s/60); const ss = (s%60).toString().padStart(2,'0');
+  document.getElementById('timer-display').textContent = `${m}:${ss}`;
 }
-function updateTimerArc(sec, total) {
-  document.getElementById('timer-arc').style.strokeDashoffset = 553 * (1 - sec/total);
+function updateTimerArc(s, total) {
+  document.getElementById('timer-arc').style.strokeDashoffset = 553*(1-s/total);
 }
 function pauseTimer() {
   State.timerRunning = !State.timerRunning;
@@ -849,18 +1058,26 @@ function pauseTimer() {
 function stopPrepTimer() { clearInterval(State.timerInterval); State.timerRunning = false; }
 function skipToExchange() { stopPrepTimer(); triggerExchange(); }
 
-// Exchange
+// ── EXCHANGE ──────────────────────────────────
 function triggerExchange() {
-  goToScreen('screen-exchange'); updateBadges(); renderExchangeScreen();
-  const overlay = document.getElementById('character-overlay');
-  overlay.style.display = 'flex'; overlay.classList.remove('out');
-  setTimeout(() => { overlay.classList.add('out'); setTimeout(() => { overlay.style.display = 'none'; }, 500); }, 2500);
-  State.exchangeSeconds = 0; State.exchangeRunning = true; updateExchangeTimer(0);
+  goToScreen('screen-exchange'); updateBadges();
+  renderExchangeScreen();
+
+  const ov = document.getElementById('character-overlay');
+  ov.style.display = 'flex'; ov.classList.remove('fade-out');
+  setTimeout(() => {
+    ov.classList.add('fade-out');
+    setTimeout(() => { ov.style.display = 'none'; }, 450);
+  }, 2400);
+
+  State.exchangeSeconds = 0; State.exchangeRunning = true;
+  updateExchangeTimer(0);
   State.exchangeInterval = setInterval(() => {
     if (!State.exchangeRunning) return;
     State.exchangeSeconds++; updateExchangeTimer(State.exchangeSeconds);
   }, 1000);
 }
+
 function renderExchangeScreen() {
   const topic = State.currentTopic; if (!topic) return;
   const badge = document.getElementById('exchange-topic-badge');
@@ -868,21 +1085,42 @@ function renderExchangeScreen() {
   badge.style.background = topic.type === 'debat' ? 'var(--brand-orange)' : 'var(--brand-green)';
   badge.style.color = '#fff';
   document.getElementById('exchange-topic-title').textContent = topic.title;
-  document.getElementById('panel-comm-body').innerHTML = '<ul class="comm-list">' + COMM_AIDE.map(cat => cat.phrases.map(p => `<li class="comm-item"><strong>${cat.cat}</strong>${p}</li>`).join('')).join('') + '</ul>';
-  const vocabBody = document.getElementById('panel-vocab-body');
-  vocabBody.innerHTML = topic.vocab && topic.vocab.length
-    ? '<ul class="vocab-list">' + topic.vocab.map(w => `<li class="vocab-chip">${escHtml(w)}</li>`).join('') + '</ul>'
-    : '<p style="color:var(--text-muted);font-size:0.85rem">Aucun vocabulaire spécifique.</p>';
+
+  const comm = getCommAide();
+  document.getElementById('panel-comm-body').innerHTML = comm.map(cat =>
+    cat.phrases.map(p => `<li class="comm-item"><strong>${escHtml(cat.cat)}</strong>${escHtml(p)}</li>`).join('')
+  ).join('');
+
+  const vocabEl = document.getElementById('panel-vocab-body');
+  vocabEl.innerHTML = topic.vocab?.length
+    ? topic.vocab.map(w => `<li class="vocab-chip">${escHtml(w)}</li>`).join('')
+    : '<li style="color:var(--text-muted);font-size:0.85rem;list-style:none">Aucun vocabulaire spécifique.</li>';
+
   document.getElementById('notes-area').value = '';
-  document.getElementById('btn-exchange-timer').textContent = '⏸️ Pause échange';
+  document.getElementById('btn-exchange-timer').textContent = '⏸️ Pause';
+
+  // Open vocab panel automatically if there's vocab; notes start open
+  const hasVocab = !!(topic.vocab?.length);
+  const commItem  = document.getElementById('accord-comm');
+  const vocabItem = document.getElementById('accord-vocab');
+  const notesItem = document.getElementById('accord-notes');
+  commItem.classList.remove('open'); vocabItem.classList.remove('open'); notesItem.classList.remove('open');
+  if (hasVocab) vocabItem.classList.add('open');
+  notesItem.classList.add('open');
 }
-function updateExchangeTimer(sec) {
-  const m = Math.floor(sec/60).toString().padStart(2,'0'); const s = (sec%60).toString().padStart(2,'0');
-  document.getElementById('exchange-timer-mini').textContent = `⏱️ ${m}:${s}`;
+
+function toggleAccord(id) {
+  const item = document.getElementById(id);
+  item.classList.toggle('open');
+}
+
+function updateExchangeTimer(s) {
+  const m = Math.floor(s/60).toString().padStart(2,'0'); const ss = (s%60).toString().padStart(2,'0');
+  document.getElementById('exchange-timer-mini').textContent = `⏱️ ${m}:${ss}`;
 }
 function toggleExchangeTimer() {
   State.exchangeRunning = !State.exchangeRunning;
-  document.getElementById('btn-exchange-timer').textContent = State.exchangeRunning ? '⏸️ Pause échange' : '▶️ Reprendre échange';
+  document.getElementById('btn-exchange-timer').textContent = State.exchangeRunning ? '⏸️ Pause' : '▶️ Reprendre';
 }
 function stopExchangeTimer() { clearInterval(State.exchangeInterval); State.exchangeRunning = false; }
 function endExchange() {
@@ -894,22 +1132,77 @@ function endExchange() {
   goToScreen('screen-recap'); launchConfetti();
 }
 
-// Confetti
-function launchConfetti() {
-  const zone = document.getElementById('confetti-zone'); zone.innerHTML = '';
-  const colors = ['#f5c400','#6c3fc5','#28c76f','#e84040','#3b82f6','#ff7c1a','#fff'];
-  for (let i = 0; i < 60; i++) {
-    const el = document.createElement('div'); el.className = 'confetti-piece';
-    el.style.left = Math.random()*100+'vw'; el.style.top = '-20px';
-    el.style.background = colors[Math.floor(Math.random()*colors.length)];
-    el.style.width = (6+Math.random()*10)+'px'; el.style.height = (6+Math.random()*10)+'px';
-    el.style.animationDuration = (2+Math.random()*3)+'s'; el.style.animationDelay = (Math.random()*1.5)+'s';
-    zone.appendChild(el);
-  }
+// ── ADMIN ─────────────────────────────────────
+let adminLevel = '5eme';
+
+function renderAdminPage() {
+  // Timer values
+  document.getElementById('setting-prep-min').value   = Math.round(getPrepSecs()/60);
+  document.getElementById('setting-exchange-min').value = getExchMins();
+  // Comm aide
+  renderCommEditor();
+  // Topics
+  updateAdminLevel(State.level || '5eme');
 }
 
-// Admin
-let adminLevel = '5eme';
+function saveTimerSettings() {
+  const prep  = parseInt(document.getElementById('setting-prep-min').value) || 5;
+  const exch  = parseInt(document.getElementById('setting-exchange-min').value) || 10;
+  lsSet('oralisimo_prep_secs', Math.max(1,prep)*60);
+  lsSet('oralisimo_exch_mins', Math.max(1,exch));
+  showToast('✅ Durées enregistrées !');
+}
+
+// Comm aide editor
+function renderCommEditor() {
+  const aide = getCommAide();
+  const editor = document.getElementById('comm-editor');
+  editor.innerHTML = aide.map((cat, ci) => `
+    <div class="comm-cat-row">
+      <div class="comm-cat-name">${escHtml(cat.cat)}</div>
+      <div class="comm-phrases" id="phrases-${ci}">
+        ${cat.phrases.map((p, pi) => `
+          <div class="comm-phrase-row">
+            <input class="comm-phrase-input" type="text" value="${escHtml(p)}" id="phrase-${ci}-${pi}" />
+            <button class="btn-del-phrase" onclick="deletePhrase(${ci},${pi})">✕</button>
+          </div>`).join('')}
+      </div>
+      <button class="btn-add-phrase" onclick="addPhrase(${ci})" style="margin-top:6px">+ Ajouter une phrase</button>
+    </div>
+  `).join('');
+}
+
+function readCommFromEditor() {
+  const aide = getCommAide();
+  return aide.map((cat, ci) => {
+    const phrases = [];
+    let pi = 0;
+    while (document.getElementById(`phrase-${ci}-${pi}`)) {
+      phrases.push(document.getElementById(`phrase-${ci}-${pi}`).value.trim());
+      pi++;
+    }
+    return { cat: cat.cat, phrases: phrases.filter(Boolean) };
+  });
+}
+
+function addPhrase(ci) {
+  const current = readCommFromEditor();
+  current[ci].phrases.push('Nouvelle phrase…');
+  lsSet('oralisimo_comm', current);
+  renderCommEditor();
+}
+function deletePhrase(ci, pi) {
+  const current = readCommFromEditor();
+  current[ci].phrases.splice(pi, 1);
+  lsSet('oralisimo_comm', current);
+  renderCommEditor();
+}
+function saveCommAide() {
+  const data = readCommFromEditor();
+  lsSet('oralisimo_comm', data);
+  showToast('✅ Aide à la communication enregistrée !');
+}
+
 function switchAdminLevel(level) {
   adminLevel = level;
   document.getElementById('tab-5eme').classList.toggle('active', level==='5eme');
@@ -918,72 +1211,83 @@ function switchAdminLevel(level) {
 }
 function updateAdminLevel(level) {
   adminLevel = level;
-  document.getElementById('admin-list-title').textContent = `Sujets pour la ${level==='5eme'?'5ème':'3ème'}`;
+  document.getElementById('admin-list-title').textContent = `📋 Sujets pour la ${level==='5eme'?'5ème':'3ème'}`;
   renderTopicsList(level);
 }
 function renderTopicsList(level) {
   const topics = getTopicsForLevel(level);
-  const container = document.getElementById('topics-list');
-  if (!topics.length) { container.innerHTML = '<p style="color:var(--text-muted);font-size:0.9rem;padding:16px">Aucun sujet pour ce niveau.</p>'; return; }
-  container.innerHTML = topics.map(t => `
+  const el = document.getElementById('topics-list');
+  if (!topics.length) { el.innerHTML = '<p style="color:var(--text-muted);font-size:0.88rem;padding:10px 0">Aucun sujet pour ce niveau.</p>'; return; }
+  el.innerHTML = topics.map(t => `
     <div class="topic-item">
       <div class="topic-item-info">
         <div class="topic-item-head">
-          <span class="topic-type-badge ${t.type}" style="font-size:0.7rem;padding:3px 10px">${t.type==='debat'?'DÉBAT':'SITUATION'}</span>
+          <span class="topic-type-badge ${t.type}" style="font-size:0.68rem;padding:2px 10px">${t.type==='debat'?'DÉBAT':'SITUATION'}</span>
           <span class="topic-item-title">${escHtml(t.title)}</span>
         </div>
         <p class="topic-item-desc">${escHtml(t.desc)}</p>
-        <div class="topic-item-vocab">${(t.vocab||[]).slice(0,5).map(w=>`<span class="vocab-chip" style="font-size:0.75rem">${escHtml(w)}</span>`).join('')}${(t.vocab||[]).length>5?`<span style="color:var(--text-muted);font-size:0.75rem">+${t.vocab.length-5}</span>`:''}</div>
+        <div class="topic-item-vocab">${(t.vocab||[]).slice(0,5).map(w=>`<span class="vocab-chip" style="font-size:0.72rem;padding:2px 9px">${escHtml(w)}</span>`).join('')}${(t.vocab||[]).length>5?`<span style="color:var(--text-muted);font-size:0.72rem"> +${t.vocab.length-5}</span>`:''}</div>
       </div>
       <button class="topic-item-delete" onclick="deleteTopic('${level}','${t.id}')">🗑️</button>
     </div>`).join('');
 }
 function addTopic() {
-  const type = document.getElementById('new-type').value;
+  const type  = document.getElementById('new-type').value;
   const title = document.getElementById('new-title').value.trim();
-  const desc = document.getElementById('new-desc').value.trim();
-  const vocabRaw = document.getElementById('new-vocab').value.trim();
-  if (!title || !desc) { showToast('⚠️ Titre et description obligatoires !'); return; }
-  const vocab = vocabRaw ? vocabRaw.split('\n').map(w=>w.trim()).filter(Boolean) : [];
-  const id = `custom-${adminLevel}-${Date.now()}`;
-  const all = getAllTopics();
-  all[adminLevel].push({id, type, title, desc, vocab});
-  localStorage.setItem('oralisimo_topics', JSON.stringify(all));
-  document.getElementById('new-title').value = ''; document.getElementById('new-desc').value = ''; document.getElementById('new-vocab').value = '';
+  const desc  = document.getElementById('new-desc').value.trim();
+  const vRaw  = document.getElementById('new-vocab').value.trim();
+  if (!title||!desc) { showToast('⚠️ Titre et description obligatoires !'); return; }
+  const vocab = vRaw ? vRaw.split('\n').map(w=>w.trim()).filter(Boolean) : [];
+  const all   = getAllTopics();
+  all[adminLevel].push({ id:`custom-${adminLevel}-${Date.now()}`, type, title, desc, vocab });
+  lsSet('oralisimo_topics', all);
+  document.getElementById('new-title').value=''; document.getElementById('new-desc').value=''; document.getElementById('new-vocab').value='';
   renderTopicsList(adminLevel); updateHomeStats(); showToast('✅ Sujet ajouté !');
 }
 function deleteTopic(level, id) {
   if (!confirm('Supprimer ce sujet ?')) return;
-  const all = getAllTopics();
-  all[level] = all[level].filter(t => t.id !== id);
-  localStorage.setItem('oralisimo_topics', JSON.stringify(all));
-  renderTopicsList(level); updateHomeStats(); showToast('🗑️ Sujet supprimé');
+  const all = getAllTopics(); all[level] = all[level].filter(t=>t.id!==id);
+  lsSet('oralisimo_topics', all); renderTopicsList(level); updateHomeStats(); showToast('🗑️ Supprimé');
 }
 
-// Toast
-function showToast(msg) {
-  const ex = document.getElementById('toast'); if (ex) ex.remove();
-  const toast = document.createElement('div'); toast.id = 'toast'; toast.textContent = msg;
-  toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(30,20,70,0.95);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:12px 24px;border-radius:999px;font-family:Nunito,sans-serif;font-weight:700;font-size:0.95rem;z-index:9999;backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(0,0,0,0.4);animation:toastIn 0.3s ease;';
-  if (!document.getElementById('toast-style')) {
-    const s = document.createElement('style'); s.id = 'toast-style';
-    s.textContent = '@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(12px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}';
-    document.head.appendChild(s);
+// ── CONFETTI ──────────────────────────────────
+function launchConfetti() {
+  const zone = document.getElementById('confetti-zone'); zone.innerHTML = '';
+  const colors = ['#f5c400','#5b35b0','#1faa60','#e84040','#3b82f6','#e86c10','#fff'];
+  for (let i=0; i<55; i++) {
+    const el = document.createElement('div'); el.className = 'confetti-piece';
+    el.style.left = Math.random()*100+'vw'; el.style.top = '-20px';
+    el.style.background = colors[Math.floor(Math.random()*colors.length)];
+    el.style.width  = (6+Math.random()*10)+'px';
+    el.style.height = (6+Math.random()*10)+'px';
+    el.style.animationDuration  = (2.2+Math.random()*3)+'s';
+    el.style.animationDelay     = (Math.random()*1.5)+'s';
+    zone.appendChild(el);
   }
-  document.body.appendChild(toast); setTimeout(() => toast.remove(), 2500);
 }
-function escHtml(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-// Init
+// ── TOAST ─────────────────────────────────────
+function showToast(msg) {
+  document.getElementById('toast')?.remove();
+  const t = document.createElement('div'); t.id = 'toast'; t.textContent = msg;
+  t.style.cssText='position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:rgba(18,13,53,0.96);border:1px solid rgba(255,255,255,0.14);color:#fff;padding:11px 22px;border-radius:999px;font-family:Nunito,sans-serif;font-weight:700;font-size:0.92rem;z-index:9999;backdrop-filter:blur(14px);box-shadow:0 8px 22px rgba(0,0,0,0.45);animation:toastIn .3s ease;';
+  if (!document.getElementById('toast-kf')) { const s=document.createElement('style');s.id='toast-kf';s.textContent='@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}';document.head.appendChild(s); }
+  document.body.appendChild(t); setTimeout(()=>t.remove(),2500);
+}
+
+// ── UTILS ─────────────────────────────────────
+function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ── INIT ──────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   updateHomeStats();
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      const ov = document.getElementById('character-overlay');
-      if (ov && ov.style.display !== 'none') { ov.classList.add('out'); setTimeout(() => { ov.style.display='none'; }, 500); }
+    if (e.key==='Escape') {
+      const ov=document.getElementById('character-overlay');
+      if (ov&&ov.style.display!=='none') { ov.classList.add('fade-out'); setTimeout(()=>{ov.style.display='none';},450); }
     }
-    if (e.key === 'F11') { e.preventDefault(); toggleFullscreen(); }
-    if (e.key === 'f' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') { toggleFullscreen(); }
+    if (e.key==='F11') { e.preventDefault(); toggleFullscreen(); }
+    if (e.key==='f'&&!e.ctrlKey&&!e.metaKey&&document.activeElement.tagName!=='INPUT'&&document.activeElement.tagName!=='TEXTAREA') toggleFullscreen();
   });
 });
 </script>
