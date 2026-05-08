@@ -332,12 +332,35 @@ html, body {
 .accord-item.panel-vocab .accord-trigger-left { color: #86efac; }
 .accord-item.panel-notes .accord-trigger-left { color: #fca5a5; }
 
-.comm-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
-.comm-item {
-  background: rgba(100,180,255,0.07); border: 1px solid rgba(100,180,255,0.14);
-  border-radius: var(--radius-md); padding: 8px 12px; font-size: 0.84rem; color: #bfdbfe; line-height: 1.45;
+/* Sub-accordions inside the comm panel */
+.comm-cat-accord { border-radius: var(--radius-md); overflow: hidden; margin-bottom: 6px; border: 1px solid rgba(100,180,255,0.18); }
+.comm-cat-accord:last-child { margin-bottom: 0; }
+
+.comm-cat-trigger {
+  width: 100%; background: rgba(100,180,255,0.08); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 13px;
+  color: #7dd3fc; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.82rem;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  transition: background 0.18s;
 }
-.comm-item strong { display: block; font-size: 0.73rem; color: #93c5fd; margin-bottom: 2px; letter-spacing: 0.3px; }
+.comm-cat-trigger:hover { background: rgba(100,180,255,0.15); }
+.comm-cat-arrow { font-size: 0.7rem; color: #7dd3fc; opacity: 0.7; transition: transform 0.22s; }
+.comm-cat-accord.open .comm-cat-arrow { transform: rotate(180deg); }
+
+.comm-cat-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.3s ease;
+  background: rgba(100,180,255,0.03);
+}
+.comm-cat-accord.open .comm-cat-body { max-height: 400px; }
+
+.comm-list { list-style: none; display: flex; flex-direction: column; gap: 0; padding: 6px 10px 8px; }
+.comm-item {
+  padding: 7px 10px; font-size: 0.84rem; color: #bfdbfe; line-height: 1.45;
+  border-bottom: 1px solid rgba(100,180,255,0.08);
+}
+.comm-item:last-child { border-bottom: none; }
 
 .vocab-list { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
 .vocab-chip {
@@ -672,7 +695,7 @@ select.form-input option { background: #1e1558; }
           <span class="accord-trigger-left"><span class="accord-icon">💬</span> Aide à la communication</span>
           <span class="accord-arrow">▼</span>
         </button>
-        <div class="accord-body"><ul class="comm-list" id="panel-comm-body"></ul></div>
+        <div class="accord-body"><div id="panel-comm-body"></div></div>
       </div>
 
       <!-- Vocabulaire -->
@@ -1087,9 +1110,18 @@ function renderExchangeScreen() {
   document.getElementById('exchange-topic-title').textContent = topic.title;
 
   const comm = getCommAide();
-  document.getElementById('panel-comm-body').innerHTML = comm.map(cat =>
-    cat.phrases.map(p => `<li class="comm-item"><strong>${escHtml(cat.cat)}</strong>${escHtml(p)}</li>`).join('')
-  ).join('');
+  document.getElementById('panel-comm-body').innerHTML = comm.map((cat, ci) => `
+    <div class="comm-cat-accord" id="comm-cat-${ci}">
+      <button class="comm-cat-trigger" onclick="toggleCommCat(${ci})">
+        <span>${escHtml(cat.cat)}</span>
+        <span class="comm-cat-arrow">▼</span>
+      </button>
+      <div class="comm-cat-body">
+        <ul class="comm-list">
+          ${cat.phrases.map(p => `<li class="comm-item">${escHtml(p)}</li>`).join('')}
+        </ul>
+      </div>
+    </div>`).join('');
 
   const vocabEl = document.getElementById('panel-vocab-body');
   vocabEl.innerHTML = topic.vocab?.length
@@ -1111,6 +1143,11 @@ function renderExchangeScreen() {
 
 function toggleAccord(id) {
   const item = document.getElementById(id);
+  item.classList.toggle('open');
+}
+
+function toggleCommCat(ci) {
+  const item = document.getElementById(`comm-cat-${ci}`);
   item.classList.toggle('open');
 }
 
