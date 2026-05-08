@@ -332,32 +332,31 @@ html, body {
 .accord-item.panel-vocab .accord-trigger-left { color: #86efac; }
 .accord-item.panel-notes .accord-trigger-left { color: #fca5a5; }
 
-/* Sub-accordions inside the comm panel */
-.comm-cat-accord { border-radius: var(--radius-md); overflow: hidden; margin-bottom: 6px; border: 1px solid rgba(100,180,255,0.18); }
-.comm-cat-accord:last-child { margin-bottom: 0; }
-
-.comm-cat-trigger {
-  width: 100%; background: rgba(100,180,255,0.08); border: none; cursor: pointer;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 9px 13px;
-  color: #7dd3fc; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.82rem;
-  text-transform: uppercase; letter-spacing: 0.5px;
-  transition: background 0.18s;
+/* Tab buttons inside the comm panel */
+.comm-tabs {
+  display: flex; gap: 6px; flex-wrap: wrap; padding: 10px 12px 8px;
+  border-bottom: 1px solid var(--border);
 }
-.comm-cat-trigger:hover { background: rgba(100,180,255,0.15); }
-.comm-cat-arrow { font-size: 0.7rem; color: #7dd3fc; opacity: 0.7; transition: transform 0.22s; }
-.comm-cat-accord.open .comm-cat-arrow { transform: rotate(180deg); }
-
-.comm-cat-body {
-  max-height: 0; overflow: hidden;
-  transition: max-height 0.3s ease;
-  background: rgba(100,180,255,0.03);
+.comm-tab-btn {
+  background: rgba(100,180,255,0.08);
+  border: 1px solid rgba(100,180,255,0.2);
+  color: #7dd3fc;
+  border-radius: var(--radius-full);
+  padding: 6px 14px;
+  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.78rem;
+  cursor: pointer; transition: background 0.18s, border-color 0.18s, color 0.18s;
+  white-space: nowrap;
 }
-.comm-cat-accord.open .comm-cat-body { max-height: 400px; }
+.comm-tab-btn:hover { background: rgba(100,180,255,0.18); }
+.comm-tab-btn.active {
+  background: #3b82f6; border-color: #3b82f6;
+  color: #fff; box-shadow: 0 2px 10px rgba(59,130,246,0.4);
+}
 
-.comm-list { list-style: none; display: flex; flex-direction: column; gap: 0; padding: 6px 10px 8px; }
+.comm-content { padding: 10px 12px 12px; }
+.comm-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
 .comm-item {
-  padding: 7px 10px; font-size: 0.84rem; color: #bfdbfe; line-height: 1.45;
+  padding: 8px 10px; font-size: 0.86rem; color: #bfdbfe; line-height: 1.5;
   border-bottom: 1px solid rgba(100,180,255,0.08);
 }
 .comm-item:last-child { border-bottom: none; }
@@ -1110,18 +1109,17 @@ function renderExchangeScreen() {
   document.getElementById('exchange-topic-title').textContent = topic.title;
 
   const comm = getCommAide();
-  document.getElementById('panel-comm-body').innerHTML = comm.map((cat, ci) => `
-    <div class="comm-cat-accord" id="comm-cat-${ci}">
-      <button class="comm-cat-trigger" onclick="toggleCommCat(${ci})">
-        <span>${escHtml(cat.cat)}</span>
-        <span class="comm-cat-arrow">▼</span>
-      </button>
-      <div class="comm-cat-body">
-        <ul class="comm-list">
-          ${cat.phrases.map(p => `<li class="comm-item">${escHtml(p)}</li>`).join('')}
-        </ul>
-      </div>
-    </div>`).join('');
+  // Build tabs + content areas
+  const tabsHtml = comm.map((cat, ci) =>
+    `<button class="comm-tab-btn${ci===0?' active':''}" id="comm-tab-${ci}" onclick="selectCommTab(${ci})">${escHtml(cat.cat)}</button>`
+  ).join('');
+  const contentsHtml = comm.map((cat, ci) =>
+    `<ul class="comm-list" id="comm-content-${ci}" style="display:${ci===0?'flex':'none'}">` +
+    cat.phrases.map(p => `<li class="comm-item">${escHtml(p)}</li>`).join('') +
+    `</ul>`
+  ).join('');
+  document.getElementById('panel-comm-body').innerHTML =
+    `<div class="comm-tabs">${tabsHtml}</div><div class="comm-content">${contentsHtml}</div>`;
 
   const vocabEl = document.getElementById('panel-vocab-body');
   vocabEl.innerHTML = topic.vocab?.length
@@ -1137,6 +1135,7 @@ function renderExchangeScreen() {
   const vocabItem = document.getElementById('accord-vocab');
   const notesItem = document.getElementById('accord-notes');
   commItem.classList.remove('open'); vocabItem.classList.remove('open'); notesItem.classList.remove('open');
+  commItem.classList.add('open');
   if (hasVocab) vocabItem.classList.add('open');
   notesItem.classList.add('open');
 }
@@ -1147,8 +1146,17 @@ function toggleAccord(id) {
 }
 
 function toggleCommCat(ci) {
-  const item = document.getElementById(`comm-cat-${ci}`);
-  item.classList.toggle('open');
+  // kept for safety, replaced by selectCommTab
+}
+
+function selectCommTab(ci) {
+  const comm = getCommAide();
+  comm.forEach((_, i) => {
+    const btn = document.getElementById(`comm-tab-${i}`);
+    const content = document.getElementById(`comm-content-${i}`);
+    if (btn) btn.classList.toggle('active', i === ci);
+    if (content) content.style.display = i === ci ? 'flex' : 'none';
+  });
 }
 
 function updateExchangeTimer(s) {
