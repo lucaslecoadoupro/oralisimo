@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oralísimo 🗣️</title>
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ===== SCREEN: LOGIN / LEVEL SELECT ===== -->
+  <div id="screen-login" class="screen active">
+    <div class="login-bg">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
+    <div class="login-card">
+      <div class="logo-wrap">
+        <span class="logo-icon">🗣️</span>
+        <h1 class="logo-title">Oralísimo</h1>
+        <p class="logo-sub">L'oral en classe, c'est un jeu !</p>
+      </div>
+      <div class="level-section">
+        <p class="level-label">Sélectionne ton niveau :</p>
+        <div class="level-buttons">
+          <button class="level-btn" data-level="5eme" onclick="selectLevel('5eme')">
+            <span class="level-emoji">🌱</span>
+            <span class="level-name">5ème</span>
+          </button>
+          <button class="level-btn" data-level="3eme" onclick="selectLevel('3eme')">
+            <span class="level-emoji">🚀</span>
+            <span class="level-name">3ème</span>
+          </button>
+        </div>
+      </div>
+      <button class="btn-primary" id="btn-enter" onclick="enterApp()" disabled>
+        ¡ Entrar ! →
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN: HOME / ACCUEIL ===== -->
+  <div id="screen-home" class="screen">
+    <header class="app-header">
+      <div class="header-logo" onclick="goHome()">🗣️ Oralísimo</div>
+      <div class="header-center">
+        <span class="badge-level" id="badge-level-home">5ème</span>
+      </div>
+      <div class="header-actions">
+        <button class="btn-icon" onclick="goToAdmin()" title="Gérer les sujets">⚙️</button>
+        <button class="btn-icon" onclick="changeLevel()" title="Changer de niveau">🔄</button>
+        <button class="btn-icon btn-fullscreen" onclick="toggleFullscreen()" title="Plein écran" id="fs-btn-home">⛶</button>
+      </div>
+    </header>
+
+    <main class="home-main">
+      <div class="home-stats">
+        <div class="stat-chip" id="stat-total">
+          <span class="stat-num" id="stat-num">0</span>
+          <span class="stat-txt">sujets disponibles</span>
+        </div>
+      </div>
+
+      <div class="spin-zone">
+        <div class="spin-decoration">
+          <div class="ring ring-1"></div>
+          <div class="ring ring-2"></div>
+          <div class="ring ring-3"></div>
+        </div>
+        <button class="btn-spin" id="btn-spin" onclick="drawTopic()">
+          <span class="btn-spin-icon">🎲</span>
+          <span class="btn-spin-text">Pincha un tema</span>
+        </button>
+      </div>
+
+      <div class="quick-actions">
+        <button class="quick-btn" onclick="goToAdmin()">
+          <span>✏️</span> Gérer les sujets
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <!-- ===== SCREEN: TIRAGE / TOPIC DRAW ===== -->
+  <div id="screen-draw" class="screen">
+    <header class="app-header">
+      <div class="header-logo" onclick="goHome()">🗣️ Oralísimo</div>
+      <div class="header-center"><span class="badge-level" id="badge-level-draw">5ème</span></div>
+      <div class="header-actions">
+        <button class="btn-icon" onclick="goHome()">🏠</button>
+        <button class="btn-icon btn-fullscreen" onclick="toggleFullscreen()" title="Plein écran">⛶</button>
+      </div>
+    </header>
+
+    <main class="draw-main">
+      <div class="draw-stage" id="draw-stage">
+        <div class="draw-card" id="draw-card">
+          <div class="draw-card-inner">
+            <div class="draw-card-front">
+              <span class="draw-question">❓</span>
+            </div>
+            <div class="draw-card-back" id="draw-card-back">
+              <div class="topic-type-badge" id="topic-type-badge">DÉBAT</div>
+              <h2 class="topic-title" id="topic-title">Thème</h2>
+              <p class="topic-desc" id="topic-desc">Description du thème</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="draw-actions" id="draw-actions" style="display:none">
+        <button class="btn-secondary" onclick="redrawTopic()">🔄 Relancer</button>
+        <button class="btn-primary" onclick="startPrep()">⏱️ Commencer la préparation</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- ===== SCREEN: PREPARATION TIMER ===== -->
+  <div id="screen-prep" class="screen">
+    <header class="app-header">
+      <div class="header-logo" onclick="goHome()">🗣️ Oralísimo</div>
+      <div class="header-center"><span class="badge-level" id="badge-level-prep">5ème</span></div>
+      <div class="header-actions">
+        <button class="btn-icon" onclick="goHome()">🏠</button>
+        <button class="btn-icon btn-fullscreen" onclick="toggleFullscreen()" title="Plein écran">⛶</button>
+      </div>
+    </header>
+
+    <main class="prep-main">
+      <div class="prep-topic-recap" id="prep-topic-recap">
+        <span class="prep-topic-badge" id="prep-topic-badge">DÉBAT</span>
+        <h2 id="prep-topic-title">Thème sélectionné</h2>
+      </div>
+
+      <div class="timer-zone">
+        <div class="timer-circle" id="timer-circle">
+          <svg class="timer-svg" viewBox="0 0 200 200">
+            <circle class="timer-track" cx="100" cy="100" r="88"/>
+            <circle class="timer-progress" id="timer-arc" cx="100" cy="100" r="88"
+              stroke-dasharray="553" stroke-dashoffset="0"/>
+          </svg>
+          <div class="timer-display">
+            <div class="timer-num" id="timer-display">5:00</div>
+            <div class="timer-label">préparation</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prep-controls">
+        <button class="btn-secondary" onclick="pauseTimer()" id="btn-pause">⏸️ Pause</button>
+        <button class="btn-danger" onclick="skipToExchange()">⏭️ Passer à l'échange</button>
+      </div>
+
+      <div class="prep-hint">
+        <span>💡</span> Les élèves préparent leurs arguments en silence…
+      </div>
+    </main>
+  </div>
+
+  <!-- ===== SCREEN: EXCHANGE ===== -->
+  <div id="screen-exchange" class="screen">
+    <header class="app-header exchange-header">
+      <div class="header-logo" onclick="goHome()">🗣️ Oralísimo</div>
+      <div class="header-center">
+        <div class="exchange-timer-mini" id="exchange-timer-mini">⏱️ 00:00</div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-icon" onclick="goHome()">🏠</button>
+        <button class="btn-icon btn-fullscreen" onclick="toggleFullscreen()" title="Plein écran">⛶</button>
+      </div>
+    </header>
+
+    <!-- Oralisimo character entrance -->
+    <div class="character-overlay" id="character-overlay">
+      <div class="character-wrap">
+        <div class="character-bubble">¡Es hora de hablar! 🎙️</div>
+        <div class="character-avatar">🗣️</div>
+        <div class="character-name">Oralísimo</div>
+      </div>
+    </div>
+
+    <main class="exchange-main">
+      <div class="exchange-header-info">
+        <span class="exchange-topic-badge" id="exchange-topic-badge">DÉBAT</span>
+        <h2 class="exchange-topic-title" id="exchange-topic-title">Thème</h2>
+      </div>
+
+      <div class="exchange-grid">
+        <!-- Aide à la communication -->
+        <div class="exchange-panel panel-comm">
+          <div class="panel-header">
+            <span>💬</span> Aide à la communication
+          </div>
+          <div class="panel-body" id="panel-comm-body">
+            <!-- injected by JS -->
+          </div>
+        </div>
+
+        <!-- Aide vocabulaire -->
+        <div class="exchange-panel panel-vocab">
+          <div class="panel-header">
+            <span>📖</span> Vocabulaire du thème
+          </div>
+          <div class="panel-body" id="panel-vocab-body">
+            <!-- injected by JS -->
+          </div>
+        </div>
+
+        <!-- Zone de notes -->
+        <div class="exchange-panel panel-notes">
+          <div class="panel-header">
+            <span>📝</span> Notes de la classe
+          </div>
+          <div class="panel-body">
+            <textarea id="notes-area" class="notes-textarea" placeholder="Notez les idées importantes de l'échange ici…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="exchange-footer">
+        <button class="btn-secondary" onclick="toggleExchangeTimer()" id="btn-exchange-timer">⏸️ Pause échange</button>
+        <button class="btn-primary" onclick="endExchange()">✅ Terminer l'échange</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- ===== SCREEN: ADMIN / GESTION DES SUJETS ===== -->
+  <div id="screen-admin" class="screen">
+    <header class="app-header">
+      <div class="header-logo" onclick="goHome()">🗣️ Oralísimo</div>
+      <div class="header-center"><span class="badge-level" id="badge-level-admin">5ème</span></div>
+      <div class="header-actions">
+        <button class="btn-icon" onclick="goHome()">🏠</button>
+        <button class="btn-icon btn-fullscreen" onclick="toggleFullscreen()" title="Plein écran">⛶</button>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <div class="admin-top">
+        <h2 class="admin-title">⚙️ Gérer les sujets</h2>
+        <div class="admin-level-tabs">
+          <button class="tab-btn active" id="tab-5eme" onclick="switchAdminLevel('5eme')">5ème</button>
+          <button class="tab-btn" id="tab-3eme" onclick="switchAdminLevel('3eme')">3ème</button>
+        </div>
+      </div>
+
+      <!-- Formulaire création -->
+      <div class="admin-form-card">
+        <h3 class="form-title">➕ Nouveau sujet</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Type</label>
+            <select id="new-type" class="form-input">
+              <option value="situation">Situation</option>
+              <option value="debat">Débat</option>
+            </select>
+          </div>
+          <div class="form-group form-full">
+            <label>Titre du sujet</label>
+            <input type="text" id="new-title" class="form-input" placeholder="Ex: ¿Qué harías si...?" />
+          </div>
+          <div class="form-group form-full">
+            <label>Description / consigne</label>
+            <textarea id="new-desc" class="form-input form-textarea" placeholder="Décris le contexte ou la question de débat…"></textarea>
+          </div>
+          <div class="form-group form-full">
+            <label>Vocabulaire clé (un mot par ligne)</label>
+            <textarea id="new-vocab" class="form-input form-textarea" placeholder="el viaje&#10;el transporte&#10;la ciudad…"></textarea>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="addTopic()">Ajouter le sujet ✅</button>
+      </div>
+
+      <!-- Liste des sujets -->
+      <div class="admin-list-section">
+        <h3 class="form-title" id="admin-list-title">Sujets pour la 5ème</h3>
+        <div class="topics-list" id="topics-list">
+          <!-- injected by JS -->
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ===== SCREEN: RECAP / FIN ===== -->
+  <div id="screen-recap" class="screen">
+    <div class="recap-bg">
+      <div class="confetti" id="confetti-zone"></div>
+    </div>
+    <main class="recap-main">
+      <div class="recap-card">
+        <div class="recap-icon">🏆</div>
+        <h2>¡ Bravo a todos !</h2>
+        <p class="recap-sub">Échange terminé avec succès</p>
+        <div class="recap-topic-info" id="recap-topic-info"></div>
+        <div class="recap-notes-saved" id="recap-notes-saved"></div>
+        <div class="recap-actions">
+          <button class="btn-secondary" onclick="drawTopic(); goToScreen('screen-draw')">🎲 Nouveau sujet</button>
+          <button class="btn-primary" onclick="goHome()">🏠 Accueil</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="data/topics.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
