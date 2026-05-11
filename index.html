@@ -332,7 +332,22 @@ html, body {
 .accord-item.panel-vocab .accord-trigger-left { color: #86efac; }
 .accord-item.panel-notes .accord-trigger-left { color: #fca5a5; }
 
-/* Tab buttons inside the comm panel */
+/* CSV import */
+.csv-drop-zone {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; padding: 28px 20px;
+  border: 2px dashed rgba(255,255,255,0.18); border-radius: var(--radius-lg);
+  cursor: pointer; transition: border-color 0.2s, background 0.2s;
+  text-align: center;
+}
+.csv-drop-zone:hover, .csv-drop-zone.drag-over {
+  border-color: var(--brand-yellow); background: rgba(245,196,0,0.05);
+}
+.csv-drop-icon { font-size: 2rem; }
+.csv-drop-text { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.5; }
+.csv-drop-text small { color: var(--text-muted); font-size: 0.78rem; }
+.csv-feedback-ok  { color: var(--brand-green); font-weight: 700; }
+.csv-feedback-err { color: var(--brand-red);   font-weight: 700; }
 .comm-tabs {
   display: flex; gap: 6px; flex-wrap: wrap; padding: 10px 12px 8px;
   border-bottom: 1px solid var(--border);
@@ -797,6 +812,24 @@ select.form-input option { background: #1e1558; }
         </div>
       </div>
       <button class="btn-primary" onclick="addTopic()" style="font-size:0.9rem;padding:10px 24px">Ajouter le sujet ✅</button>
+    </div>
+
+    <!-- Import CSV -->
+    <div class="admin-section">
+      <div class="admin-section-title">📥 Importer une banque CSV</div>
+      <p style="font-size:0.83rem;color:var(--text-secondary);margin-bottom:14px;line-height:1.6;">
+        Importe un fichier <strong style="color:#fff">.csv</strong> pour ajouter plusieurs sujets d'un coup au niveau sélectionné. Les sujets existants sont conservés.
+      </p>
+      <label class="csv-drop-zone" id="csv-drop-zone">
+        <input type="file" id="csv-file-input" accept=".csv,text/csv" style="display:none" onchange="handleCsvFile(this.files[0])">
+        <span class="csv-drop-icon">📂</span>
+        <span class="csv-drop-text">Glisser un fichier .csv ici<br><small>ou cliquer pour choisir</small></span>
+      </label>
+      <div id="csv-feedback" style="margin-top:10px;font-size:0.84rem;display:none"></div>
+      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <button class="btn-secondary" onclick="downloadCsvTemplate()" style="font-size:0.84rem;padding:8px 18px">⬇️ Télécharger le modèle CSV</button>
+        <button class="btn-danger" onclick="clearAllTopics()" style="font-size:0.84rem;padding:8px 18px">🗑️ Vider la banque</button>
+      </div>
     </div>
 
     <!-- Liste sujets -->
@@ -1294,6 +1327,141 @@ function deleteTopic(level, id) {
   const all = getAllTopics(); all[level] = all[level].filter(t=>t.id!==id);
   lsSet('oralisimo_topics', all); renderTopicsList(level); updateHomeStats(); showToast('🗑️ Supprimé');
 }
+
+// ── CSV IMPORT ────────────────────────────────
+/**
+ * Format attendu (séparateur virgule, encodage UTF-8) :
+ * niveau,type,titre,description,vocabulaire
+ *
+ * - niveau      : 5eme  ou  3eme  (sans accent, sans è)
+ * - type        : situation  ou  debat
+ * - titre       : texte libre (guillemets si virgule à l'intérieur)
+ * - description : texte libre (guillemets si virgule à l'intérieur)
+ * - vocabulaire : mots séparés par | (ex: el viaje|la ciudad|viajar)
+ *
+ * Première ligne = en-tête (ignorée automatiquement).
+ */
+function handleCsvFile(file) {
+  if (!file) return;
+  const zone = document.getElementById('csv-drop-zone');
+  zone.classList.remove('drag-over');
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const text = e.target.result;
+    const result = parseCsv(text);
+    showCsvFeedback(result);
+    if (result.imported > 0) { renderTopicsList(adminLevel); updateHomeStats(); }
+    // reset input so same file can be re-imported if needed
+    document.getElementById('csv-file-input').value = '';
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+function parseCsv(text) {
+  const lines = text.split(/\r?\n/).filter(l => l.trim());
+  if (!lines.length) return { imported: 0, skipped: 0, errors: ['Fichier vide'] };
+
+  // Skip header line if it starts with "niveau" or "level"
+  let start = 0;
+  if (/^(niveau|level|nível)/i.test(lines[0])) start = 1;
+
+  const all = getAllTopics();
+  let imported = 0, skipped = 0;
+  const errors = [];
+
+  for (let i = start; i < lines.length; i++) {
+    const cols = splitCsvLine(lines[i]);
+    if (cols.length < 4) { skipped++; errors.push(`Ligne ${i+1} : moins de 4 colonnes`); continue; }
+
+    const niveau = cols[0].trim().toLowerCase().replace(/è/g,'e').replace(/eme$/,'eme');
+    const type   = cols[1].trim().toLowerCase();
+    const titre  = cols[2].trim();
+    const desc   = cols[3].trim();
+    const vocab  = cols[4] ? cols[4].trim().split('|').map(w=>w.trim()).filter(Boolean) : [];
+
+    if (!['5eme','3eme'].includes(niveau)) { skipped++; errors.push(`Ligne ${i+1} : niveau invalide "${cols[0]}"`); continue; }
+    if (!['situation','debat','débat'].includes(type)) { skipped++; errors.push(`Ligne ${i+1} : type invalide "${cols[1]}"`); continue; }
+    if (!titre || !desc) { skipped++; errors.push(`Ligne ${i+1} : titre ou description manquant`); continue; }
+
+    const cleanType = type.replace('é','e'); // débat → debat
+    const id = `csv-${niveau}-${Date.now()}-${i}`;
+    all[niveau].push({ id, type: cleanType, title: titre, desc, vocab });
+    imported++;
+  }
+
+  lsSet('oralisimo_topics', all);
+  return { imported, skipped, errors };
+}
+
+// Splits a CSV line respecting quoted fields
+function splitCsvLine(line) {
+  const cols = []; let cur = ''; let inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') { inQ = !inQ; }
+    else if (c === ',' && !inQ) { cols.push(cur); cur = ''; }
+    else { cur += c; }
+  }
+  cols.push(cur);
+  return cols.map(c => c.replace(/^"|"$/g,'').trim());
+}
+
+function showCsvFeedback(result) {
+  const el = document.getElementById('csv-feedback');
+  el.style.display = 'block';
+  if (result.errors?.length && result.imported === 0) {
+    el.className = 'csv-feedback-err';
+    el.innerHTML = `❌ Aucun sujet importé.<br>${result.errors.slice(0,3).map(escHtml).join('<br>')}`;
+  } else {
+    el.className = 'csv-feedback-ok';
+    let msg = `✅ ${result.imported} sujet${result.imported>1?'s':''} importé${result.imported>1?'s':''} avec succès !`;
+    if (result.skipped) msg += ` (${result.skipped} ligne${result.skipped>1?'s':''} ignorée${result.skipped>1?'s':''})`;
+    el.innerHTML = msg;
+    if (result.errors?.length) {
+      el.innerHTML += `<br><span style="color:var(--text-muted);font-size:0.78rem">${result.errors.slice(0,3).map(escHtml).join(' · ')}</span>`;
+    }
+  }
+  setTimeout(() => { el.style.display = 'none'; }, 5000);
+}
+
+// Download a pre-filled template CSV
+function downloadCsvTemplate() {
+  const rows = [
+    'niveau,type,titre,description,vocabulaire',
+    '5eme,situation,¡ Un día en España !,"Tu es en vacances à Madrid. Tu demandes ton chemin pour aller au musée del Prado.",el museo|la calle|todo recto|a la derecha|perdona',
+    '5eme,debat,¿ Internet o libros ?,"Pour apprendre, vaut-il mieux Internet ou les livres ? Donnez vos arguments.",según yo|creo que|prefiero|porque|sin embargo',
+    '3eme,debat,¿ El cambio climático ?,"Chaque individu doit-il changer son mode de vie, ou est-ce aux gouvernements d\'agir ?",el medio ambiente|responsabilidad|el gobierno|reducir|las emisiones',
+    '3eme,situation,Entrevista de trabajo,"Tu passes un entretien d\'embauche pour un job d\'été dans une entreprise espagnole.",la entrevista|las habilidades|trabajar en equipo|motivado|el salario',
+  ];
+  const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = 'oralisimo_sujets_modele.csv';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+function clearAllTopics() {
+  if (!confirm(`Vider TOUS les sujets de la ${adminLevel==='5eme'?'5ème':'3ème'} ? (les sujets par défaut seront restaurés au rechargement)`)) return;
+  const all = getAllTopics();
+  all[adminLevel] = [];
+  lsSet('oralisimo_topics', all);
+  renderTopicsList(adminLevel); updateHomeStats();
+  showToast('🗑️ Banque vidée');
+}
+
+// Drag & drop support
+document.addEventListener('DOMContentLoaded', () => {
+  const zone = document.getElementById('csv-drop-zone');
+  if (!zone) return;
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file) handleCsvFile(file);
+  });
+});
 
 // ── CONFETTI ──────────────────────────────────
 function launchConfetti() {
