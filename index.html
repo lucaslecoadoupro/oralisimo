@@ -818,7 +818,8 @@ select.form-input option { background: #1e1558; }
     <div class="admin-section">
       <div class="admin-section-title">📥 Importer une banque CSV</div>
       <p style="font-size:0.83rem;color:var(--text-secondary);margin-bottom:14px;line-height:1.6;">
-        Importe un fichier <strong style="color:#fff">.csv</strong> pour ajouter plusieurs sujets d'un coup au niveau sélectionné. Les sujets existants sont conservés.
+        Importe un fichier <strong style="color:#fff">.csv</strong> pour ajouter plusieurs sujets d'un coup au niveau sélectionné. Les sujets existants sont conservés.<br>
+        <span style="color:var(--text-muted)">✓ Séparateur <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">,</code> ou <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">;</code> acceptés — encodage UTF-8 recommandé.</span>
       </p>
       <label class="csv-drop-zone" id="csv-drop-zone">
         <input type="file" id="csv-file-input" accept=".csv,text/csv" style="display:none" onchange="handleCsvFile(this.files[0])">
@@ -1359,8 +1360,17 @@ function handleCsvFile(file) {
 }
 
 function parseCsv(text) {
-  const lines = text.split(/\r?\n/).filter(l => l.trim());
+  // Strip UTF-8 BOM if present
+  if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+  // Normalize line endings
+  text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+  const lines = text.split('\n').filter(l => l.trim());
   if (!lines.length) return { imported: 0, skipped: 0, errors: ['Fichier vide'] };
+
+  // Auto-detect separator: count ; vs , on first line
+  const firstLine = lines[0];
+  const sep = (firstLine.split(';').length > firstLine.split(',').length) ? ';' : ',';
 
   // Skip header line if it starts with "niveau" or "level"
   let start = 0;
@@ -1371,10 +1381,10 @@ function parseCsv(text) {
   const errors = [];
 
   for (let i = start; i < lines.length; i++) {
-    const cols = splitCsvLine(lines[i]);
+    const cols = splitCsvLine(lines[i], sep);
     if (cols.length < 4) { skipped++; errors.push(`Ligne ${i+1} : moins de 4 colonnes`); continue; }
 
-    const niveau = cols[0].trim().toLowerCase().replace(/è/g,'e').replace(/eme$/,'eme');
+    const niveau = cols[0].trim().toLowerCase().replace(/è/g,'e').replace(/ème/g,'eme');
     const type   = cols[1].trim().toLowerCase();
     const titre  = cols[2].trim();
     const desc   = cols[3].trim();
@@ -1384,7 +1394,7 @@ function parseCsv(text) {
     if (!['situation','debat','débat'].includes(type)) { skipped++; errors.push(`Ligne ${i+1} : type invalide "${cols[1]}"`); continue; }
     if (!titre || !desc) { skipped++; errors.push(`Ligne ${i+1} : titre ou description manquant`); continue; }
 
-    const cleanType = type.replace('é','e'); // débat → debat
+    const cleanType = type.replace('é','e');
     const id = `csv-${niveau}-${Date.now()}-${i}`;
     all[niveau].push({ id, type: cleanType, title: titre, desc, vocab });
     imported++;
@@ -1394,13 +1404,13 @@ function parseCsv(text) {
   return { imported, skipped, errors };
 }
 
-// Splits a CSV line respecting quoted fields
-function splitCsvLine(line) {
+// Splits a CSV line respecting quoted fields, with configurable separator
+function splitCsvLine(line, sep = ',') {
   const cols = []; let cur = ''; let inQ = false;
   for (let i = 0; i < line.length; i++) {
     const c = line[i];
     if (c === '"') { inQ = !inQ; }
-    else if (c === ',' && !inQ) { cols.push(cur); cur = ''; }
+    else if (c === sep && !inQ) { cols.push(cur); cur = ''; }
     else { cur += c; }
   }
   cols.push(cur);
@@ -1428,13 +1438,13 @@ function showCsvFeedback(result) {
 // Download a pre-filled template CSV
 function downloadCsvTemplate() {
   const rows = [
-    'niveau,type,titre,description,vocabulaire',
-    '5eme,situation,¡ Un día en España !,"Tu es en vacances à Madrid. Tu demandes ton chemin pour aller au musée del Prado.",el museo|la calle|todo recto|a la derecha|perdona',
-    '5eme,debat,¿ Internet o libros ?,"Pour apprendre, vaut-il mieux Internet ou les livres ? Donnez vos arguments.",según yo|creo que|prefiero|porque|sin embargo',
-    '3eme,debat,¿ El cambio climático ?,"Chaque individu doit-il changer son mode de vie, ou est-ce aux gouvernements d\'agir ?",el medio ambiente|responsabilidad|el gobierno|reducir|las emisiones',
-    '3eme,situation,Entrevista de trabajo,"Tu passes un entretien d\'embauche pour un job d\'été dans une entreprise espagnole.",la entrevista|las habilidades|trabajar en equipo|motivado|el salario',
+    'niveau;type;titre;description;vocabulaire',
+    '5eme;situation;¡ Un día en España !;Tu es en vacances à Madrid. Tu demandes ton chemin à un passant pour aller au musée del Prado.;el museo|la calle|todo recto|a la derecha|perdona',
+    '5eme;debat;¿ Internet o libros ?;Pour apprendre et travailler, vaut-il mieux utiliser Internet ou les livres ?;según yo|creo que|prefiero|porque|sin embargo',
+    '3eme;debat;¿ El cambio climático ?;Chaque individu doit-il changer son mode de vie, ou est-ce aux gouvernements d\'agir ?;el medio ambiente|responsabilidad|el gobierno|reducir|las emisiones',
+    '3eme;situation;Entrevista de trabajo;Tu passes un entretien d\'embauche pour un job d\'été dans une entreprise espagnole.;la entrevista|las habilidades|trabajar en equipo|motivado|el salario',
   ];
-  const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+  const blob = new Blob(['\uFEFF' + rows.join('\n')], { type: 'text/csv;charset=utf-8;' });
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
   a.href = url; a.download = 'oralisimo_sujets_modele.csv';
